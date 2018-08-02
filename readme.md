@@ -4,6 +4,8 @@
 
 Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
 
+Actually you can release any thing not just php. Please itself is [released](https://github.com/adhocore/please/releases/tag/0.0.1) by please.
+
 #### Working
 
 - Determine remote git repo based on local git config
