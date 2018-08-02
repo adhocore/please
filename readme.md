@@ -20,6 +20,10 @@ Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
 ## Installation
 
 ```sh
+# Requirements:
+# jq
+sudo apt install jq -y
+
 curl -sSLo ~/please https://raw.githubusercontent.com/adhocore/please/master/please
 sudo chmod +x ~/please && sudo cp ~/please /usr/local/bin/please
 ```
