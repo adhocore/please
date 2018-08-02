@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+#
+# Simple github release for PHP projects.
+# 
+# Author:
+#   Jitendra Adhikari <jiten.adhikary@gmail.com>
+#
+# Be sure to check readme doc at https://github.com/adhocore/please
+#
+
+set -e
+
+function line() { echo -e "\e[0;$2m$1\e[0m"; }
+
+function error() { line "$1" 31; }
+
+function ok() { line "${1:-  Done}" 32; }
+
+function info() { line "$1" 33; }
+
+function qgit() { git "$@" &> /dev/null; }
+
+if [ -z "${GH_AUTH_TOKEN}" ]; then
+  error "GH auth token missing"
+  exit 1
+fi
+
+# y u no `sed`
+REPO=$(php -r "echo str_replace(['git@github.com:', '.git'], '', '`git config --get remote.origin.url`');")
+GH_REPO="github.com/repos/${REPO}"
+ok "Repository ${REPO}"
+
+TMP_LOG=`tempfile -p PLZ`
+info "Log file ${TMP_LOG}"
+
+info "Updating master ..."
+qgit stash && qgit checkout master && qgit fetch --tags && qgit pull origin master --rebase
+ok
+
+info "Getting latest releases ..."
+VERSION=`curl --silent "https://api.${GH_REPO}/releases/latest" | jq -r .tag_name`
+ok
+
+info "Current Version $VERSION"
+info "Collecting commits ..."
+
+COMMITS=`git log ${VERSION}..HEAD --no-merges --oneline --pretty=%B --grep "skip" --invert-grep | sed -e ':a;N;$!ba;s/\n./<br>/g'`
+ok
+
+if [[ "" == $COMMITS ]]; then
+  error "Nothing to release"
+  exit 0
+fi
+
+if [[ $* == *major* ]]; then
+  NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $((a + 1)).0.0)`
+elif [[ $*  == *minor* ]]; then
+  NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$((b + 1)).0)`
+else
+  NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1)))`
+fi
+
+if [ -f ./VERSION ] || [[ $* == *--vfile* ]]; then
+  info "Bumping version ..."
+  echo "${NEXT_VERSION}" > ./VERSION
+  qgit add ./VERSION && qgit commit -m "chore: bump version [ci skip][skip ci]" && qgit push origin master
+  ok
+fi
+
+info "Releasing $NEXT_VERSION ..."
+
+bash -c "curl -s \
+  -H 'Authorization: token ${GH_AUTH_TOKEN}' \
+  -H 'Content-Type: application/json' \
+  -d '{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"${COMMITS}\"}' \
+  https://api.${GH_REPO}/releases >> ${TMP_LOG}"
+ok
+
+# no need to publish phar
+if [ ! -f ./box.json ]; then
+  info "Check ${TMP_LOG} for logs"
+  exit 0
+fi
+
+if [ ! -f ~/box.phar ]; then
+  info "Fetching box.phar ..."
+  curl -sSLo ~/box.phar "https://github.com/humbug/box/releases/download/${BOX_VERSION:-3.0.0-beta.4}/box.phar"
+fi
+
+info "Getting release ID ..."
+LAST_RELEASE=`curl --silent "https://api.${GH_REPO}/releases/latest" | jq -r .id`
+ok
+
+info "Cleaning up ..."
+rm -rf ./vendor/cov
+ok
+
+info "Compiling phar ..."
+php ~/box.phar compile -q
+ok
+
+PHAR_FILE=`ls -t $(pwd)/bin/*.phar | head -1`
+
+info "Publishing phar ..."
+
+bash -c "curl -s \
+  -H 'Authorization: token $GH_AUTH_TOKEN' \
+  -H 'Content-Type: $(file -b --mime-type ${PHAR_FILE})' \
+  --data-binary @${PHAR_FILE} \
+  https://uploads.${GH_REPO}/releases/${LAST_RELEASE}/assets?name=$(basename ${PHAR_FILE}) >> ${TMP_LOG}"
+ok
+
+info "Check ${TMP_LOG} for logs"
