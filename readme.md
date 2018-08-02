@@ -72,6 +72,28 @@ please --vfile
 please major --vfile
 ```
 
+### Output
+
+Here's output of [please](./please) in action, releasing [0.0.1](https://github.com/adhocore/please/releases/tag/0.0.1) of itself:
+
+```
+$ ./please --vfile
+Repository adhocore/please
+Log file /tmp/PLZEXKbyF
+Updating master ...
+  Done
+Getting latest releases ...
+  Done
+Current Version 0.0.0
+Collecting commits ...
+  Done
+Bumping version ...
+  Done
+Releasing 0.0.1 ...
+  Done
+Check /tmp/PLZEXKbyF for logs
+```
+
 #### NOTE:
 - If there is `VERSION` file in project root, you dont need `--vfile` flag.
 - If there is `box.json` file in project root, it builds and releases `.phar` too.
