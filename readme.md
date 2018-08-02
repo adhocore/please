@@ -4,7 +4,20 @@
 
 Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
 
-## Installation:
+#### Working
+
+- Determine remote git repo based on local git config
+- Checkout and Update `master`
+- Get latest release from github api endpoint
+- Collect new commits since the latest release
+- Bump the version, reflect that into `./VERSION` file and commit it
+- Release the new version
+- If there is `box.json` present, compile phar using `box`
+  (It downloads `box.phar` if required)
+- Get the ID of recent release from github api
+- Upload the compiled `phar` as asset for the recent release
+
+## Installation
 
 ```sh
 curl -sSLo ~/please https://raw.githubusercontent.com/adhocore/please/master/please
@@ -13,7 +26,7 @@ sudo chmod +x ~/please && sudo cp ~/please /usr/local/bin/please
 
 ## Setup 
 
-One time setup. In your .bashrc or .zshrc or the like export github token:
+One time setup. In your `.bashrc` / `.zshrc` or the like export github token:
 
 ```sh 
 export GH_AUTH_TOKEN=<your token here>
@@ -29,7 +42,7 @@ Make sure to set only bare minimum permission scopes for this token.
 (Go to the root of any project you want to release and run)
 
 ```sh
-release [Scope] [Options]
+please [Scope] [Options]
 ```
 ### Scope
 
