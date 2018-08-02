@@ -39,12 +39,18 @@ ok
 
 info "Getting latest releases ..."
 VERSION=`curl --silent "https://api.${GH_REPO}/releases/latest" | jq -r .tag_name`
+DIFF="${VERSION}..HEAD"
+
+if [ "null" == "$VERSION" ]; then
+  VERSION="0.0.0"
+  DIFF=""
+fi
 ok
 
 info "Current Version $VERSION"
 info "Collecting commits ..."
 
-COMMITS=`git log ${VERSION}..HEAD --no-merges --oneline --pretty=%B --grep "skip" --invert-grep | sed -e ':a;N;$!ba;s/\n./<br>/g'`
+COMMITS=`git log ${DIFF} --no-merges --oneline --pretty=%B --grep "skip" --invert-grep | sed -e ':a;N;$!ba;s/\n./<br>/g'`
 ok
 
 if [[ "" == $COMMITS ]]; then
