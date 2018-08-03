@@ -18,7 +18,7 @@ function ok() { line "${1:-  Done}" 32; }
 
 function info() { line "$1" 33; }
 
-function qgit() { git "$@" &> /dev/null; }
+function qgit() { git "$@" &> $TMP_LOG; }
 
 if [ -z "${GH_AUTH_TOKEN}" ]; then
   error "GH auth token missing"
