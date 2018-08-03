@@ -1,6 +1,6 @@
-## adhocore/please
+# adhocore/please
 
-**p**hp re**lease** is very simple github release for PHP projects.
+`please` (aka **p**hp re**lease**) is very simple github release for PHP projects.
 
 Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
 
@@ -15,7 +15,7 @@ Actually you can release any thing not just php. Please itself is [released](htt
 - Bump the version, reflect that into `./VERSION` file and commit it
 - Release the new version
 - If there is `box.json` present, compile phar using `box`
-  (It downloads `box.phar` if required)
+  (download `box.phar` if required)
 - Get the ID of recent release from github api
 - Upload the compiled `phar` as asset for the recent release
 
@@ -63,7 +63,7 @@ minor     Bumps the <minor> part of semver.
 --vfile   Forces creation of VERSION file (if it doesnt exist) with next version as content.
 ```
 
-### Examples:
+### Examples
 
 ```sh
 please
