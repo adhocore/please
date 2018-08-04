@@ -16,7 +16,6 @@ Actually you can release any thing not just php. Please itself is [released](htt
 - Release the new version
 - If there is `box.json` present, compile phar using `box`
   (download `box.phar` if required)
-- Get the ID of recent release from github api
 - Upload the compiled `phar` as asset for the recent release
 
 ## Installation
