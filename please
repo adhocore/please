@@ -18,7 +18,22 @@ function ok() { line "${1:-  Done}" 32; }
 
 function info() { line "$1" 33; }
 
-function qgit() { git "$@" &> $TMP_LOG; }
+function qgit() { git "$@" &>> $TMP_LOG; }
+
+function github()
+{
+  RESP=`bash -c "curl --silent -H 'Authorization: token ${GH_AUTH_TOKEN}' $@"`
+  echo "$RESP" >> ${TMP_LOG}
+
+  ERROR=`echo ${RESP} | jq -r '.message?'`
+
+  if [ "" != "$ERROR" ] && [ "null" != "$ERROR" ]; then
+    error "Github: $ERROR"
+    exit 1
+  fi
+
+  echo "$RESP"
+}
 
 if [ -z "${GH_AUTH_TOKEN}" ]; then
   error "GH auth token missing"
@@ -38,7 +53,7 @@ qgit stash && qgit checkout master && qgit fetch --tags && qgit pull origin mast
 ok
 
 info "Getting latest releases ..."
-VERSION=`curl --silent "https://api.${GH_REPO}/releases/latest" | jq -r .tag_name`
+VERSION=`github "https://api.${GH_REPO}/releases" | jq -r '.[0]?.tag_name?'`
 DIFF="${VERSION}..HEAD"
 
 if [ "null" == "$VERSION" ]; then
@@ -53,7 +68,7 @@ info "Collecting commits ..."
 COMMITS=`git log ${DIFF} --no-merges --oneline --pretty=%B --grep "skip" --invert-grep | sed -e ':a;N;$!ba;s/\n./<br>/g'`
 ok
 
-if [[ "" == $COMMITS ]]; then
+if [ "" == "$COMMITS" ]; then
   error "Nothing to release"
   exit 0
 fi
@@ -69,18 +84,24 @@ fi
 if [ -f ./VERSION ] || [[ $* == *--vfile* ]]; then
   info "Bumping version ..."
   echo "${NEXT_VERSION}" > ./VERSION
-  qgit add ./VERSION && qgit commit -m "chore: bump version [ci skip][skip ci]" && qgit push origin master
+  qgit add ./VERSION && qgit commit -m "chore: bump version [skip ci]" && qgit push origin master
   ok
 fi
 
 info "Releasing $NEXT_VERSION ..."
 
-bash -c "curl -s \
-  -H 'Authorization: token ${GH_AUTH_TOKEN}' \
-  -H 'Content-Type: application/json' \
+LAST_RELEASE_ID=`github \
+  "-H 'Content-Type: application/json' \
   -d '{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"${COMMITS}\"}' \
-  https://api.${GH_REPO}/releases >> ${TMP_LOG}"
+  https://api.${GH_REPO}/releases" \
+    | jq -r '.id?'`
 ok
+
+if [ "null" == "$LAST_RELEASE_ID" ]; then
+  error "Something went wrong"
+  info "Check ${TMP_LOG} for logs"
+  exit 1
+fi
 
 # no need to publish phar
 if [ ! -f ./box.json ]; then
@@ -90,12 +111,8 @@ fi
 
 if [ ! -f ~/box.phar ]; then
   info "Fetching box.phar ..."
-  curl -sSLo ~/box.phar "https://github.com/humbug/box/releases/download/${BOX_VERSION:-3.0.0-beta.4}/box.phar"
+  curl -sSLo ~/box.phar "https://github.com/humbug/box/releases/download/3.0.0-beta.4/box.phar"
 fi
-
-info "Getting release ID ..."
-LAST_RELEASE=`curl --silent "https://api.${GH_REPO}/releases/latest" | jq -r .id`
-ok
 
 info "Cleaning up ..."
 rm -rf ./vendor/cov
@@ -106,14 +123,15 @@ php ~/box.phar compile -q
 ok
 
 PHAR_FILE=`ls -t $(pwd)/bin/*.phar | head -1`
-
+NAME=`basename ${PHAR_FILE}`
 info "Publishing phar ..."
 
-bash -c "curl -s \
-  -H 'Authorization: token $GH_AUTH_TOKEN' \
-  -H 'Content-Type: $(file -b --mime-type ${PHAR_FILE})' \
+SIZE=`github \
+  "-H 'Content-Type: application/octet-stream' \
   --data-binary @${PHAR_FILE} \
-  https://uploads.${GH_REPO}/releases/${LAST_RELEASE}/assets?name=$(basename ${PHAR_FILE}) >> ${TMP_LOG}"
+  https://uploads.${GH_REPO}/releases/${LAST_RELEASE_ID}/assets?name=${NAME}" \
+    | jq -r '.size'`
 ok
 
+info "[ok] ${NAME} ${SIZE}bytes"
 info "Check ${TMP_LOG} for logs"
