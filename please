@@ -65,7 +65,7 @@ ok
 info "Current Version $VERSION"
 info "Collecting commits ..."
 
-COMMITS=`git log ${DIFF} --no-merges --oneline --pretty=%B --grep "skip" --grep "StyleCI" --invert-grep | sed -e ':a;N;$!ba;s/\n./<br>/g'`
+COMMITS=`git log ${DIFF} --no-merges --oneline --pretty=%B --grep "skip ci" --grep "StyleCI" --invert-grep | sed -e ':a;N;$!ba;s/\n./<br>/g'`
 ok
 
 if [ "" == "$COMMITS" ]; then
