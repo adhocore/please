@@ -53,7 +53,7 @@ qgit stash && qgit checkout master && qgit fetch --tags && qgit pull origin mast
 ok
 
 info "Getting latest releases ..."
-VERSION=`github "https://api.${GH_REPO}/releases" | jq -r '.[0]?.tag_name?'`
+VERSION=`github "https://api.${GH_REPO}/releases?per_page=1" | jq -r '.[0]?.tag_name?'`
 DIFF="${VERSION}..HEAD"
 
 if [ "null" == "$VERSION" ]; then
