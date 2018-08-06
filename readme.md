@@ -40,6 +40,11 @@ export GH_AUTH_TOKEN=<your token here>
 Get your token from [here](https://github.com/settings/tokens/new). 
 Make sure to set only bare minimum permission scopes for this token.
 
+### What permissions
+> - [x] repo               *if you want to release private repos*
+>   - [x] public_repo      *required*
+>   - [x] repo_deployment  *required*
+
 **Important**: Tokens are to be treated and kept as much secret as passwords.
 
 ## Usage:
