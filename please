@@ -174,7 +174,14 @@ if [ "null" == "$LAST_RELEASE_ID" ]; then
 fi
 
 # no need to publish phar
-if [ ! -f ./box.json ]; then
+if [ ! -f ./box.json ] || [ ! -f ./composer.json ]; then
+  info "Check ${TMP_LOG} for logs"
+  exit 0
+fi
+
+PBIN=`cat composer.json | jq -r '.bin[0]?'`
+if [ "null" == "$PBIN" ]; then
+  red "Check bin value in composer.json"
   info "Check ${TMP_LOG} for logs"
   exit 0
 fi
@@ -192,8 +199,8 @@ info "Compiling phar ..."
 php ~/box.phar compile >> ${TMP_LOG}
 ok
 
-PHAR_FILE=`ls -t $(pwd)/bin/*.phar | head -1`
-NAME=`basename ${PHAR_FILE}`
+NAME="${PBIN}.phar"
+PHAR_FILE=`realpath ${NAME}`
 info "Publishing phar ..."
 
 SIZE=`github \
