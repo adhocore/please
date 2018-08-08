@@ -83,6 +83,12 @@ please --vfile
 please major --vfile
 ```
 
+#### Note
+
+- If there is `VERSION` file in project root, you dont need `--vfile` flag.
+- If there is `box.json` file in project root, it builds and releases `.phar` too.
+- If no scope is given, bumps the `<patch>` part of semver.
+
 ### Output
 
 Here's output of [please](./please) in action, releasing [0.0.1](https://github.com/adhocore/please/releases/tag/0.0.1) of itself:
@@ -107,7 +113,11 @@ Check /tmp/PLZEXKbyF for logs
 
 And [here](https://i.imgur.com/mQaiAuk.png) is colorful screenshot of `please` releasing [v0.0.10](https://github.com/adhocore/phint/releases/v0.0.10) of [phint](https://github.com/adhocore/phint)
 
-#### NOTE:
-- If there is `VERSION` file in project root, you dont need `--vfile` flag.
-- If there is `box.json` file in project root, it builds and releases `.phar` too.
-- If no scope is given, bumps the `<patch>` part of semver.
+### Troubleshooting
+
+If you are using `zsh` then `please` might have been already aliased to `sudo`. To fix this simply run
+
+```sh
+echo "alias please=/usr/local/bin/please" > ~/.zshrc
+source ~/.zshrc
+```
