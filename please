@@ -199,8 +199,8 @@ info "Compiling phar ..."
 php ~/box.phar compile >> ${TMP_LOG}
 ok
 
-NAME="${PBIN}.phar"
-PHAR_FILE=`realpath ${NAME}`
+PHAR_FILE=`realpath ${PBIN}.phar`
+NAME=`basename ${PHAR_FILE}`
 info "Publishing phar ..."
 
 SIZE=`github \
