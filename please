@@ -67,6 +67,34 @@ USAGE
   exit 0
 }
 
+while [[ $# -gt 0 ]]
+do
+  case "$1" in
+    -h | --help)
+      usage
+    ;;
+    -u | --update)
+      update
+    ;;
+    -v | --vfile)
+      VFILE=1
+      shift 1
+    ;;
+    minor)
+      MINOR=1
+      shift 1
+    ;;
+    major)
+      MAJOR=1
+      shift 1
+    ;;
+    *)
+      error "Invalid arg ${1}. (Run ${PLIZ} --help)"
+      exit 1
+    ;;
+  esac
+done
+
 if [ -z "${GH_AUTH_TOKEN}" ]; then
   error "GH auth token missing"
   exit 1
