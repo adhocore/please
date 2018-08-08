@@ -26,7 +26,7 @@ Actually you can release any thing not just php. Please itself is [released](htt
 sudo apt install jq -y
 
 curl -sSLo ~/please https://raw.githubusercontent.com/adhocore/please/master/please
-sudo chmod +x ~/please && sudo cp ~/please /usr/local/bin/please
+chmod +x ~/please && sudo ln -s ~/please /usr/local/bin/please
 ```
 
 ## Setup 
@@ -41,6 +41,7 @@ Get your token from [here](https://github.com/settings/tokens/new).
 Make sure to set only bare minimum permission scopes for this token.
 
 ### What permissions
+
 > - [x] repo               *if you want to release private repos*
 >   - [x] public_repo      *required*
 >   - [x] repo_deployment  *required*
@@ -54,6 +55,7 @@ Make sure to set only bare minimum permission scopes for this token.
 ```sh
 please [Scope] [Options]
 ```
+
 ### Scope
 
 ```
@@ -64,13 +66,16 @@ minor     Bumps the <minor> part of semver.
 ### Options
 
 ```
---vfile   Forces creation of VERSION file (if it doesnt exist) with next version as content.
+-v --vfile   Forces creation of VERSION file.
+-h --help    Show help information and usage.
+-u --update  Update please to latest version.
 ```
 
 ### Examples
 
 ```sh
 please
+please --update
 please minor
 please --vfile
 please major --vfile
