@@ -6,6 +6,8 @@ Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
 
 Actually you can release any thing not just php. Please itself is [released](https://github.com/adhocore/please/releases/tag/0.0.1) by please.
 
+![Help Preview](https://imgur.com/14FXbR6.png "Help Preview")
+
 #### Working
 
 - Determine remote git repo based on local git config
@@ -48,7 +50,7 @@ Make sure to set only bare minimum permission scopes for this token.
 
 **Important**: Tokens are to be treated and kept as much secret as passwords.
 
-## Usage:
+## Usage
 
 (Go to the root of any project you want to release and run)
 
