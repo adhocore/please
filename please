@@ -10,6 +10,9 @@
 
 set -e
 
+FULL=`realpath $0` # fullpath
+PLIZ=`basename $0` # name
+
 line() { echo -e "\e[${3:-0};$2m$1\e[0m"; }
 
 error() { line "$1" 31; }
