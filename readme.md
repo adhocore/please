@@ -118,6 +118,6 @@ And [here](https://i.imgur.com/mQaiAuk.png) is colorful screenshot of `please` r
 If you are using `zsh` then `please` might have been already aliased to `sudo`. To fix this simply run
 
 ```sh
-echo "alias please=/usr/local/bin/please" > ~/.zshrc
+echo "alias please=/usr/local/bin/please" >> ~/.zshrc
 source ~/.zshrc
 ```
