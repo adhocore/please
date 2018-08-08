@@ -42,8 +42,7 @@ if [ -z "${GH_AUTH_TOKEN}" ]; then
   exit 1
 fi
 
-# y u no `sed`
-REPO=$(php -r "echo str_replace(['git@github.com:', '.git'], '', '`git config --get remote.origin.url`');")
+REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
 GH_REPO="github.com/repos/${REPO}"
 ok "Repository ${REPO}"
 
