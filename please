@@ -67,6 +67,13 @@ USAGE
   exit 0
 }
 
+update()
+{
+  curl -sSLo ${FULL} https://raw.githubusercontent.com/adhocore/please/master/please
+  ok "Updated"
+  exit 0
+}
+
 while [[ $# -gt 0 ]]
 do
   case "$1" in
