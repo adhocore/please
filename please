@@ -139,15 +139,19 @@ if [ "" == "$COMMITS" ]; then
   exit 0
 fi
 
-if [[ $* == *major* ]]; then
+MAJOR=${MAJOR:-0}
+MINOR=${MINOR:-0}
+VFILE=${VFILE:-0}
+
+if [[ $MAJOR -eq 1 ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $((a + 1)).0.0)`
-elif [[ $*  == *minor* ]]; then
+elif [[ $MINOR -eq 1 ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$((b + 1)).0)`
 else
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1)))`
 fi
 
-if [ -f ./VERSION ] || [[ $* == *--vfile* ]]; then
+if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
   info "Bumping version ..."
   echo "${NEXT_VERSION}" > ./VERSION
   qgit add ./VERSION && qgit commit -m "chore: bump version [skip ci]" && qgit push origin master
@@ -199,5 +203,5 @@ SIZE=`github \
     | jq -r '.size'`
 ok
 
-info "[ok] ${NAME} ${SIZE}bytes"
+info "[OK] ${NAME} ${SIZE} bytes"
 info "Check ${TMP_LOG} for logs"
