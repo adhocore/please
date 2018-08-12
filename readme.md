@@ -1,10 +1,10 @@
 # adhocore/please
 
-`please` (aka **p**hp re**lease**) is very simple github release for PHP projects.
+`please` (aka **p**hp re**lease** or even n**p**m re**lease**) is very simple Github+NPM release for PHP and/or Nodejs projects.
 
 Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
 
-Actually you can release any thing not just php. Please itself is [released](https://github.com/adhocore/please/releases/tag/0.0.1) by please.
+Actually you can release any thing not just PHP/Nodejs. Please itself is [released](https://github.com/adhocore/please/releases) by please.
 
 ![Help Preview](https://imgur.com/14FXbR6.png "Help Preview")
 
