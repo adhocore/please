@@ -70,8 +70,10 @@ USAGE
 
 update()
 {
+  info "Updating ..."
   curl -sSLo ${FULL} https://raw.githubusercontent.com/adhocore/please/master/please
-  ok "Updated"
+  NEWVER=`curl -S https://raw.githubusercontent.com/adhocore/please/master/VERSION`
+  ok "  Done [${NEWVER}]"
   exit 0
 }
 
@@ -134,6 +136,13 @@ publish-npm()
   ok
 }
 
+REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
+if [ "" == "$REPO" ]; then
+  error "$(pwd) is not git repo"
+  exit 1
+fi
+
+# argv parsing
 while [[ $# -gt 0 ]]
 do
   case "$1" in
@@ -166,12 +175,12 @@ do
   esac
 done
 
+# gh auth
 if [ -z "${GH_AUTH_TOKEN}" ]; then
-  error "GH auth token missing"
+  error "GH_AUTH_TOKEN missing"
   exit 1
 fi
 
-REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
 GH_REPO="github.com/repos/${REPO}"
 ok "Repository ${REPO}"
 
