@@ -56,7 +56,8 @@ Make sure to set only bare minimum permission scopes for this token.
 
 ## Usage
 
-(Go to the root of any project you want to release and run)
+Make sure you have already merged required commits to `master` branch in Github,
+then go to the root of any project you want to release and run:
 
 ```sh
 please [Scope] [Options]
