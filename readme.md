@@ -15,9 +15,13 @@ Actually you can release any thing not just php. Please itself is [released](htt
 - Get latest release from github api endpoint
 - Collect new commits since the latest release
 - Bump the version, reflect that into `./VERSION` file and commit it
-- Release the new version
-- If there is `box.json` present, compile phar using `box`
-  (download `box.phar` if required)
+- If there is `package.json` file, bump `package.json#version` and commit it
+- If `package.json#private` is not set to `true`
+    - If npm user not already logged in, run `npm adduser`
+    - Run `npm publish` finally
+- Release the new version and tag to github
+- If there is `box.json` file, compile phar using `box`
+    (download `box.phar` if required)
 - Upload the compiled `phar` as asset for the recent release
 
 ## Installation
@@ -71,6 +75,7 @@ minor     Bumps the <minor> part of semver.
 -v --vfile   Forces creation of VERSION file.
 -h --help    Show help information and usage.
 -u --update  Update please to latest version.
+-p --public  Set scoped npm package for public access.
 ```
 
 ### Examples
@@ -78,8 +83,8 @@ minor     Bumps the <minor> part of semver.
 ```sh
 please
 please --update
-please minor
 please --vfile
+please minor --public
 please major --vfile
 ```
 
