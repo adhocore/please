@@ -132,7 +132,7 @@ publish-npm()
     npm adduser
   fi
 
-  npm publish ${PUBLIC} >> ${TMP_LOG}
+  npm publish ${PUBLIC} &>> ${TMP_LOG}
   ok
 }
 
@@ -229,7 +229,7 @@ if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
   info "Bumping version ..."
   echo "${NEXT_VERSION}" > ./VERSION
   qgit add ./VERSION && qgit commit -m "chore: bump version [skip ci]" && qgit push origin master
-  ok
+  ok "  Done [${NEXT_VERSION}]"
 fi
 
 # do we need to publish npm?
