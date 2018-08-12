@@ -119,6 +119,10 @@ Check /tmp/PLZEXKbyF for logs
 
 And [here](https://i.imgur.com/mQaiAuk.png) is colorful screenshot of `please` releasing [v0.0.10](https://github.com/adhocore/phint/releases/v0.0.10) of [phint](https://github.com/adhocore/phint)
 
+And here is a preview of all [features](https://www.npmjs.com/package/@adhocore/devnull) of `please` in one [release](https://github.com/adhocore/dev-null/releases/tag/0.0.6):
+![Full Preview](https://imgur.com/TXI6Jst.png "Full Feature Preview")
+
+
 ### Troubleshooting
 
 If you are using `zsh` then `please` might have been already aliased to `sudo`. To fix this simply run
