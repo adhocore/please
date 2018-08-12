@@ -74,6 +74,43 @@ update()
   exit 0
 }
 
+# publish phar
+publish-phar()
+{
+  PBIN=`cat composer.json | jq -r '.bin[0]?'`
+  if [ "null" == "$PBIN" ]; then
+    red "Check bin value in composer.json"
+    info "Check ${TMP_LOG} for logs"
+    exit 1
+  fi
+
+  if [ ! -f ~/box.phar ]; then
+    info "Fetching box.phar ..."
+    curl -sSLo ~/box.phar "https://github.com/humbug/box/releases/download/3.0.0-beta.4/box.phar"
+  fi
+
+  info "Cleaning up ..."
+  rm -rf ./vendor/cov
+  ok
+
+  info "Compiling phar ..."
+  php ~/box.phar compile >> ${TMP_LOG}
+  ok
+
+  PHAR_FILE=`realpath ${PBIN}.phar`
+  NAME=`basename ${PHAR_FILE}`
+  info "Publishing phar ..."
+
+  SIZE=`github \
+    "-H 'Content-Type: application/octet-stream' \
+    --data-binary @${PHAR_FILE} \
+    https://uploads.${GH_REPO}/releases/${LAST_RELEASE_ID}/assets?name=${NAME}" \
+      | jq -r '.size'`
+  ok
+
+  info "[OK] ${NAME} ${SIZE} bytes"
+}
+
 while [[ $# -gt 0 ]]
 do
   case "$1" in
@@ -173,42 +210,9 @@ if [ "null" == "$LAST_RELEASE_ID" ]; then
   exit 1
 fi
 
-# no need to publish phar
-if [ ! -f ./box.json ] || [ ! -f ./composer.json ]; then
-  info "Check ${TMP_LOG} for logs"
-  exit 0
+# do we need to publish phar?
+if [ -f ./box.json ] && [ -f ./composer.json ]; then
+  publish-phar
 fi
 
-PBIN=`cat composer.json | jq -r '.bin[0]?'`
-if [ "null" == "$PBIN" ]; then
-  red "Check bin value in composer.json"
-  info "Check ${TMP_LOG} for logs"
-  exit 0
-fi
-
-if [ ! -f ~/box.phar ]; then
-  info "Fetching box.phar ..."
-  curl -sSLo ~/box.phar "https://github.com/humbug/box/releases/download/3.0.0-beta.4/box.phar"
-fi
-
-info "Cleaning up ..."
-rm -rf ./vendor/cov
-ok
-
-info "Compiling phar ..."
-php ~/box.phar compile >> ${TMP_LOG}
-ok
-
-PHAR_FILE=`realpath ${PBIN}.phar`
-NAME=`basename ${PHAR_FILE}`
-info "Publishing phar ..."
-
-SIZE=`github \
-  "-H 'Content-Type: application/octet-stream' \
-  --data-binary @${PHAR_FILE} \
-  https://uploads.${GH_REPO}/releases/${LAST_RELEASE_ID}/assets?name=${NAME}" \
-    | jq -r '.size'`
-ok
-
-info "[OK] ${NAME} ${SIZE} bytes"
 info "Check ${TMP_LOG} for logs"
