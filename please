@@ -112,6 +112,28 @@ publish-phar()
   info "[OK] ${NAME} ${SIZE} bytes"
 }
 
+# publish npm
+publish-npm()
+{
+  PKG=`cat ./package.json`
+  PVT=`echo ${PKG} | jq -r '.private?'`
+
+  info "Publishing npm ..."
+  echo ${PKG} | jq ".version = \"${NEXT_VERSION}\"" > ./package.json
+  qgit add ./package.json && qgit commit -m "chore: bump package.version [skip ci]" && qgit push origin master
+
+  if [ "true" == "$PVT" ]; then
+    info "  package marked private"
+  elif [ ! -f ~/.npmrc ]; then
+    npm adduser
+  elif [[ "" = "$(cat ~/.npmrc | grep _authToken || echo '')" ]]; then
+    npm adduser
+  fi
+
+  npm publish ${PUBLIC} >> ${TMP_LOG}
+  ok
+}
+
 while [[ $# -gt 0 ]]
 do
   case "$1" in
@@ -184,6 +206,7 @@ fi
 MAJOR=${MAJOR:-0}
 MINOR=${MINOR:-0}
 VFILE=${VFILE:-0}
+PUBLIC=${PUBLIC:-}
 
 if [[ $MAJOR -eq 1 ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $((a + 1)).0.0)`
@@ -198,6 +221,11 @@ if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
   echo "${NEXT_VERSION}" > ./VERSION
   qgit add ./VERSION && qgit commit -m "chore: bump version [skip ci]" && qgit push origin master
   ok
+fi
+
+# do we need to publish npm?
+if [ -f ./package.json ]; then
+  publish-npm
 fi
 
 info "Releasing $NEXT_VERSION ..."
