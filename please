@@ -70,7 +70,7 @@ USAGE
 
 update()
 {
-  info "Updating ..."
+  info "Updating ${PLIZ} ..."
   curl -sSLo ${FULL} https://raw.githubusercontent.com/adhocore/please/master/please
   NEWVER=`curl -sSL https://raw.githubusercontent.com/adhocore/please/master/VERSION`
   ok "  Done [${NEWVER}]"
