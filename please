@@ -56,12 +56,13 @@ $(ok Options:)
   $(info "-v --vfile")   $(comment "Forces creation of VERSION file.")
   $(info "-h --help")    $(comment "Show help information and usage.")
   $(info "-u --update")  $(comment "Update ${PLIZ} to latest version.")
+  $(info "-p --public")  $(comment "Set scoped npm package for public access.")
 
 $(ok Examples:)
   please
   please --update
   please --vfile
-  please minor
+  please minor --public
   please major --vfile
 USAGE
   exit 0
@@ -122,6 +123,10 @@ do
     ;;
     -v | --vfile)
       VFILE=1
+      shift 1
+    ;;
+    -p | --public)
+      PUBLIC="--access=public"
       shift 1
     ;;
     minor)
