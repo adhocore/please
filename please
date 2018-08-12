@@ -82,7 +82,7 @@ publish-phar()
 {
   PBIN=`cat composer.json | jq -r '.bin[0]?'`
   if [ "null" == "$PBIN" ]; then
-    red "Check bin value in composer.json"
+    error "Check bin value in composer.json"
     info "Check ${TMP_LOG} for logs"
     exit 1
   fi
