@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Simple github release for PHP projects.
+# Simple github release for PHP &/or NodeJS projects.
 # 
 # Author:
 #   Jitendra Adhikari <jiten.adhikary@gmail.com>
