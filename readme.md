@@ -14,6 +14,7 @@ Actually you can release any thing not just PHP/Nodejs. Please itself is [releas
 - Checkout and Update `master`
 - Get latest release from github api endpoint
 - Collect new commits since the latest release
+- Create a changelog (prepend to if exists), reflect that into `./CHANGELOG.md` file and commit it
 - Bump the version, reflect that into `./VERSION` file and commit it
 - If there is `package.json` file, bump `package.json#version` and commit it
 - If `package.json#private` is not set to `true`
