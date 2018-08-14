@@ -192,7 +192,7 @@ GPUSH=0             # git push pending
 MAJOR=${MAJOR:-0}   # bump major
 MINOR=${MINOR:-0}   # bump minor
 VFILE=${VFILE:-0}   # create version file
-CHLOG=${VFILE:-0}   # create changelog file
+CHLOG=${CHLOG:-0}   # create changelog file
 GCFMT=${GCFMT:-%s}  # git commit log format
 
 # gh auth
