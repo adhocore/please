@@ -127,7 +127,7 @@ publish-npm()
 
   info "Publishing npm ..."
   echo ${PKG} | jq ".version = \"${NEXT_VERSION}\"" > ./package.json
-  qgit add ./package.json && qgit commit -m "chore: bump package.version [skip ci]" && qgit push origin master
+  qgit add ./package.json && qgit commit -m "chore: bump package.version [skip ci]" && GPUSH=1
 
   if [ "true" == "$PVT" ]; then
     info "  package marked private"
@@ -243,8 +243,15 @@ fi
 if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
   info "Bumping version ..."
   echo "${NEXT_VERSION}" > ./VERSION
-  qgit add ./VERSION && qgit commit -m "chore: bump version [skip ci]" && qgit push origin master
+  qgit add ./VERSION && qgit commit -m "chore: bump version [skip ci]" && GPUSH=1
   ok "  Done [${NEXT_VERSION}]"
+fi
+
+# push changes
+if [[ $GPUSH -eq 1 ]]; then
+  info "Pushing pending commits ..."
+  qgit push origin master
+  ok
 fi
 
 # do we need to publish npm?
