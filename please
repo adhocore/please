@@ -55,17 +55,19 @@ $(ok Scope:)
   $(info minor)  $(comment "Bumps the <minor> part of semver.")
 
 $(ok Options:)
-  $(info "-v --vfile")   $(comment "Forces creation of VERSION file.")
+  $(info "-c --chlog")   $(comment "Forces creation of CHANGELOG.md file.")
   $(info "-h --help")    $(comment "Show help information and usage.")
-  $(info "-u --update")  $(comment "Update ${PLIZ} to latest version.")
+  $(info "-H --chash")   $(comment "Prepends commit hash into log.")
   $(info "-p --public")  $(comment "Set scoped npm package for public access.")
+  $(info "-u --update")  $(comment "Update ${PLIZ} to latest version.")
+  $(info "-v --vfile")   $(comment "Forces creation of VERSION file.")
 
 $(ok Examples:)
   please
   please --update
-  please --vfile
+  please --vfile --chash
   please minor --public
-  please major --vfile
+  please major --vfile --chlog
 USAGE
   exit 0
 }
@@ -161,6 +163,14 @@ do
     ;;
     -p | --public)
       PUBLIC="--access=public"
+      shift 1
+    ;;
+    -c | --chlog)
+      CHLOG=1
+      shift 1
+    ;;
+    -H | --chash)
+      GCFMT="[%h](https://github.com/${REPO}/commit/%h) %s"
       shift 1
     ;;
     minor)
