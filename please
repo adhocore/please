@@ -239,6 +239,28 @@ else
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1)))`
 fi
 
+# changelog backup
+OLD=""
+if [ -f ./CHANGELOG.md ]; then
+  OLD="\n$(cat ./CHANGELOG.md)"
+  CHLOG=0
+
+  if [[ $OLD != *"[${NEXT_VERSION}]"* ]]; then
+    CHLOG=1
+  fi
+fi
+
+# changelog file
+if [[ $CHLOG -eq 1 ]]; then
+  info "Updating changelog ..."
+  echo -e "## [${NEXT_VERSION}] $(date -u '+%Y-%m-%d %H:%m:%S') UTC\n" > ./CHANGELOG.md
+  echo -e "${COMMITS}" | sed -e 's/^/- /' >> ./CHANGELOG.md
+  echo -e "${OLD}" >> ./CHANGELOG.md
+  qgit add ./CHANGELOG.md && qgit commit -m "chore: update changelog [skip ci]" && GPUSH=1
+  ok
+fi
+
+# version file
 if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
   info "Bumping version ..."
   echo "${NEXT_VERSION}" > ./VERSION
@@ -258,6 +280,7 @@ if [ -f ./package.json ]; then
   publish-npm
 fi
 
+# release
 info "Releasing $NEXT_VERSION ..."
 COMMITS=`echo -e "$COMMITS" | sed -z 's/\n/<br>/g'`
 LAST_RELEASE_ID=`github \
