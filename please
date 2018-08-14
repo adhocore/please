@@ -188,6 +188,13 @@ do
   esac
 done
 
+GPUSH=0             # git push pending
+MAJOR=${MAJOR:-0}   # bump major
+MINOR=${MINOR:-0}   # bump minor
+VFILE=${VFILE:-0}   # create version file
+CHLOG=${VFILE:-0}   # create changelog file
+GCFMT=${GCFMT:-%s}  # git commit log format
+
 # gh auth
 if [ -z "${GH_AUTH_TOKEN}" ]; then
   error "GH_AUTH_TOKEN missing"
@@ -224,10 +231,7 @@ if [ "" == "$COMMITS" ]; then
   exit 0
 fi
 
-MAJOR=${MAJOR:-0}
-MINOR=${MINOR:-0}
-VFILE=${VFILE:-0}
-
+# determine next version
 if [[ $MAJOR -eq 1 ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $((a + 1)).0.0)`
 elif [[ $MINOR -eq 1 ]]; then
