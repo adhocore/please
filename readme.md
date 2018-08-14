@@ -86,7 +86,7 @@ minor     Bumps the <minor> part of semver.
 ```sh
 please
 please --update
-please --vfile
+please --vfile --chash
 please minor --public
 please major --vfile --chlog
 ```
