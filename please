@@ -222,8 +222,7 @@ fi
 ok "  Done [${VERSION}]"
 
 info "Collecting commits ..."
-
-COMMITS=`git log ${DIFF} --no-merges --oneline --pretty=%B --grep "skip ci" --grep "StyleCI" --invert-grep | sed -e ':a;N;$!ba;s/\n/<br>/g'`
+COMMITS=`git log ${DIFF} --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
 ok
 
 if [ "" == "$COMMITS" ]; then
@@ -260,7 +259,7 @@ if [ -f ./package.json ]; then
 fi
 
 info "Releasing $NEXT_VERSION ..."
-
+COMMITS=`echo -e "$COMMITS" | sed -z 's/\n/<br>/g'`
 LAST_RELEASE_ID=`github \
   "-H 'Content-Type: application/json' \
   -d '{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"${COMMITS}\"}' \
