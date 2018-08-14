@@ -73,10 +73,12 @@ minor     Bumps the <minor> part of semver.
 ### Options
 
 ```
--v --vfile   Forces creation of VERSION file.
+-c --chlog   Forces creation of CHANGELOG.md file.
 -h --help    Show help information and usage.
--u --update  Update please to latest version.
+-H --chash   Prepends commit hash into log.
 -p --public  Set scoped npm package for public access.
+-u --update  Update please to latest version.
+-v --vfile   Forces creation of VERSION file.
 ```
 
 ### Examples
@@ -86,12 +88,13 @@ please
 please --update
 please --vfile
 please minor --public
-please major --vfile
+please major --vfile --chlog
 ```
 
 #### Note
 
 - If there is `VERSION` file in project root, you dont need `--vfile` flag.
+- If there is `CHANGELOG.md` file in project root, you dont need `--chlog` flag.
 - If there is `box.json` file in project root, it builds and releases `.phar` too.
 - If no scope is given, bumps the `<patch>` part of semver.
 
