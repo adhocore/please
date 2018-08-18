@@ -16,6 +16,8 @@ Actually you can release any thing not just PHP/Nodejs. Please itself is [releas
 - Collect new commits since the latest release
 - Create a changelog (prepend to if exists), reflect that into `./CHANGELOG.md` file and commit it
 - Bump the version, reflect that into `./VERSION` file and commit it
+    - If any of the latest commits start with `feat` `<minor>` is bumped
+    - But if only you didnt explicitly pass `scope` already
 - If there is `package.json` file, bump `package.json#version` and commit it
 - If `package.json#private` is not set to `true`
     - If npm user not already logged in, run `npm adduser`
