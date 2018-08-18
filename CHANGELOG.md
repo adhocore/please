@@ -1,3 +1,9 @@
+## [0.2.0] 2018-08-18 10:08:34 UTC
+
+- [944bd2b](https://github.com/adhocore/please/commit/944bd2b) feat(please): bump minor there is  in commit (Jitendra Adhikari)
+- [b864ead](https://github.com/adhocore/please/commit/b864ead) feat(please): add commit user name [closes #8] (Jitendra Adhikari)
+- [fe5b34a](https://github.com/adhocore/please/commit/fe5b34a) docs: change log (Jitendra Adhikari)
+
 ## [0.1.0] 2018-08-14 16:08:04 UTC
 
 - [629f15a](https://github.com/adhocore/please/commit/629f15a) fix(please): CHLOG used wrong defaults
@@ -11,4 +17,3 @@
 - [61ef012](https://github.com/adhocore/please/commit/61ef012) chore: add comments, cleanup junk
 - [d2c1b21](https://github.com/adhocore/please/commit/d2c1b21) docs: reorder options, add --chlog, --chash flags chlog - to create changelog.md chash - to prepend commit hash (with url) in changelog &/or release note
 - [c9de526](https://github.com/adhocore/please/commit/c9de526) chore: update header
-
