@@ -6,7 +6,7 @@ Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
 
 Actually you can release any thing not just PHP/Nodejs. Please itself is [released](https://github.com/adhocore/please/releases) by please.
 
-![Help Preview](https://imgur.com/14FXbR6.png "Help Preview")
+![Help Preview](https://imgur.com/zxc5deM.png "Help Preview")
 
 #### Working
 
