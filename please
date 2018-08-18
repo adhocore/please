@@ -29,7 +29,7 @@ qgit() { git "$@" &>> $TMP_LOG; }
 github()
 {
   RESP=`bash -c "curl --silent -H 'Authorization: token ${GH_AUTH_TOKEN}' $@"`
-  echo "$RESP" >> ${TMP_LOG}
+  echo "${RESP}" >> ${TMP_LOG}
 
   ERROR=`echo ${RESP} | jq -r '.message?'`
 
@@ -38,7 +38,7 @@ github()
     exit 1
   fi
 
-  echo "$RESP"
+  echo "${RESP}"
 }
 
 # show usage
@@ -147,6 +147,8 @@ if [ "" == "$REPO" ]; then
   exit 1
 fi
 
+GCFMT="%s (%an)"    # git commit log format
+
 # argv parsing
 while [[ $# -gt 0 ]]
 do
@@ -170,7 +172,7 @@ do
       shift 1
     ;;
     -H | --chash)
-      GCFMT="[%h](https://github.com/${REPO}/commit/%h) %s"
+      GCFMT="[%h](https://github.com/${REPO}/commit/%h) ${GCFMT}"
       shift 1
     ;;
     minor)
@@ -193,7 +195,6 @@ MAJOR=${MAJOR:-0}   # bump major
 MINOR=${MINOR:-0}   # bump minor
 VFILE=${VFILE:-0}   # create version file
 CHLOG=${CHLOG:-0}   # create changelog file
-GCFMT=${GCFMT:-%s}  # git commit log format
 
 # gh auth
 if [ -z "${GH_AUTH_TOKEN}" ]; then
@@ -222,7 +223,7 @@ fi
 ok "  Done [${VERSION}]"
 
 info "Collecting commits ..."
-COMMITS=`git log ${DIFF} --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
+COMMITS=`git log "${DIFF}" --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
 ok
 
 if [ "" == "$COMMITS" ]; then
