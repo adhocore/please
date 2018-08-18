@@ -1,3 +1,13 @@
+## [0.2.0] 2018-08-18 10:08:19 UTC
+
+- [ef9b8f0](https://github.com/adhocore/please/commit/ef9b8f0) chore: readme > README (Jitendra Adhikari)
+- [fb4320f](https://github.com/adhocore/please/commit/fb4320f) docs: bump info (Jitendra Adhikari)
+- [3d66eb8](https://github.com/adhocore/please/commit/3d66eb8) fix(please): bump <minor> for feat if only no scope given (Jitendra Adhikari)
+- [f97428a](https://github.com/adhocore/please/commit/f97428a) revert: v0.2 (Jitendra Adhikari)
+- [944bd2b](https://github.com/adhocore/please/commit/944bd2b) feat(please): bump minor there is  in commit (Jitendra Adhikari)
+- [b864ead](https://github.com/adhocore/please/commit/b864ead) feat(please): add commit user name [closes #8] (Jitendra Adhikari)
+- [fe5b34a](https://github.com/adhocore/please/commit/fe5b34a) docs: change log (Jitendra Adhikari)
+
 ## [0.1.0] 2018-08-14 16:08:04 UTC
 
 - [629f15a](https://github.com/adhocore/please/commit/629f15a) fix(please): CHLOG used wrong defaults
