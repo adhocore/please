@@ -233,11 +233,11 @@ fi
 
 # determine next version
 FEAT=`git log "${DIFF}" --oneline --pretty="%s" | grep -P '^feat' || echo ""`
-if [[ "" != "$FEAT" ]]; then
-  NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$((b + 1)).0)`
-elif [[ $MAJOR -eq 1 ]]; then
+if [[ $MAJOR -eq 1 ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $((a + 1)).0.0)`
 elif [[ $MINOR -eq 1 ]]; then
+  NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$((b + 1)).0)`
+elif [[ "" != "$FEAT" ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$((b + 1)).0)`
 else
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1)))`
