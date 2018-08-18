@@ -126,7 +126,7 @@ Check /tmp/PLZEXKbyF for logs
 And [here](https://i.imgur.com/mQaiAuk.png) is colorful screenshot of `please` releasing [v0.0.10](https://github.com/adhocore/phint/releases/v0.0.10) of [phint](https://github.com/adhocore/phint)
 
 And here is a preview of all [features](https://www.npmjs.com/package/@adhocore/devnull) of `please` in one [release](https://github.com/adhocore/dev-null/releases/tag/0.0.6):
-![Full Preview](https://imgur.com/TXI6Jst.png "Full Feature Preview")
+![Full Preview](https://imgur.com/anzTcrX.png "Full Feature Preview")
 
 ### Sample changelog
 
@@ -135,8 +135,8 @@ And here is a preview of all [features](https://www.npmjs.com/package/@adhocore/
 ```
 ## [0.0.1] 2018-01-01 00:00:00 UTC
 
-- commit 1
-- commit 2
+- commit 1 (Author Name)
+- commit 2 (Author Name)
 ...
 ```
 
@@ -145,8 +145,8 @@ If you passed in `--chash` flag then:
 ```
 ## [0.0.1] 2018-01-01 00:00:00 UTC
 
-- [<commit1hash>](https://github.com/<repo>/commit/<commit1hash>) commit 1
-- [<commit2hash>](https://github.com/<repo>/commit/<commit2hash>) commit 2
+- [<commit1hash>](https://github.com/<repo>/commit/<commit1hash>) commit 1 (Author Name)
+- [<commit2hash>](https://github.com/<repo>/commit/<commit2hash>) commit 2 (Author Name)
 ...
 ```
 
