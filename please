@@ -232,7 +232,7 @@ if [ "" == "$COMMITS" ]; then
 fi
 
 # determine next version
-FEAT=`git log "${DIFF}" --oneline --pretty="%s" | grep -P '^feat' || echo ""`
+FEAT=`git log ${DIFF} --oneline --pretty="%s" | grep -P '^feat' || echo ""`
 if [[ $MAJOR -eq 1 ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $((a + 1)).0.0)`
 elif [[ $MINOR -eq 1 ]]; then
