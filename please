@@ -223,7 +223,7 @@ fi
 ok "  Done [${VERSION}]"
 
 info "Collecting commits ..."
-COMMITS=`git log "${DIFF}" --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
+COMMITS=`git log ${DIFF} --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
 ok
 
 if [ "" == "$COMMITS" ]; then
