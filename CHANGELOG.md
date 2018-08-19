@@ -1,3 +1,9 @@
+## [0.2.1] 2018-08-19 13:08:26 UTC
+
+- [20cc9b9](https://github.com/adhocore/please/commit/20cc9b9) fix(please): quoted interpolation when empty (Jitendra Adhikari)
+- [cedde9a](https://github.com/adhocore/please/commit/cedde9a) docs: update preview img. add change log author name (Jitendra Adhikari)
+- [16ecfbd](https://github.com/adhocore/please/commit/16ecfbd) docs: update help preview (Jitendra Adhikari)
+
 ## [0.2.0] 2018-08-18 10:08:19 UTC
 
 - [ef9b8f0](https://github.com/adhocore/please/commit/ef9b8f0) chore: readme > README (Jitendra Adhikari)
