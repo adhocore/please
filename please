@@ -61,12 +61,13 @@ $(ok Options:)
   $(info "-p --public")  $(comment "Set scoped npm package for public access.")
   $(info "-u --update")  $(comment "Update ${PLIZ} to latest version.")
   $(info "-v --vfile")   $(comment "Forces creation of VERSION file.")
+  $(info "-y --yes")     $(comment "Assume yes for any confirmation.")
 
 $(ok Examples:)
   please
   please --update
   please --vfile --chash
-  please minor --public
+  please minor --public --yes
   please major --vfile --chlog
 USAGE
   exit 0
@@ -175,6 +176,10 @@ do
       GCFMT="[%h](https://github.com/${REPO}/commit/%h) ${GCFMT}"
       shift 1
     ;;
+    -y | --yes)
+      YES=1
+      shift 1
+    ;;
     minor)
       MINOR=1
       shift 1
@@ -195,6 +200,7 @@ MAJOR=${MAJOR:-0}   # bump major
 MINOR=${MINOR:-0}   # bump minor
 VFILE=${VFILE:-0}   # create version file
 CHLOG=${CHLOG:-0}   # create changelog file
+YES=${YES:-0}       # assume yes
 
 # gh auth
 if [ -z "${GH_AUTH_TOKEN}" ]; then
@@ -241,6 +247,14 @@ elif [[ "" != "$FEAT" ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$((b + 1)).0)`
 else
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1)))`
+fi
+
+if [[ $YES -eq 0 ]]; then
+  read -p "Are you sure to release [${NEXT_VERSION}]? [y/N] " -n 1 -r
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    error "\nNot releasing ${NEXT_VERSION}"
+    exit 1
+  fi
 fi
 
 # changelog backup
