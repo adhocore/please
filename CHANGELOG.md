@@ -1,3 +1,8 @@
+## [0.3.0] 2018-08-25 15:08:45 UTC
+
+- [765922d](https://github.com/adhocore/please/commit/765922d) docs(readme): --yes [closes #9] (Jitendra Adhikari)
+- [e3e99c9](https://github.com/adhocore/please/commit/e3e99c9) feat(please): add confirmation prompt with --yes option (Jitendra Adhikari)
+
 ## [0.2.1] 2018-08-19 13:08:26 UTC
 
 - [20cc9b9](https://github.com/adhocore/please/commit/20cc9b9) fix(please): quoted interpolation when empty (Jitendra Adhikari)
