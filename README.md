@@ -82,6 +82,7 @@ minor     Bumps the <minor> part of semver.
 -p --public  Set scoped npm package for public access.
 -u --update  Update please to latest version.
 -v --vfile   Forces creation of VERSION file.
+-y --yes     Assume yes for any confirmation.
 ```
 
 ### Examples
@@ -90,7 +91,7 @@ minor     Bumps the <minor> part of semver.
 please
 please --update
 please --vfile --chash
-please minor --public
+please minor --public --yes
 please major --vfile --chlog
 ```
 
