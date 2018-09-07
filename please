@@ -154,44 +154,16 @@ GCFMT="%s (%an)"    # git commit log format
 while [[ $# -gt 0 ]]
 do
   case "$1" in
-    -h | --help)
-      usage
-    ;;
-    -u | --update)
-      update
-    ;;
-    -v | --vfile)
-      VFILE=1
-      shift 1
-    ;;
-    -p | --public)
-      PUBLIC="--access=public"
-      shift 1
-    ;;
-    -c | --chlog)
-      CHLOG=1
-      shift 1
-    ;;
-    -H | --chash)
-      GCFMT="[%h](https://github.com/${REPO}/commit/%h) ${GCFMT}"
-      shift 1
-    ;;
-    -y | --yes)
-      YES=1
-      shift 1
-    ;;
-    minor)
-      MINOR=1
-      shift 1
-    ;;
-    major)
-      MAJOR=1
-      shift 1
-    ;;
-    *)
-      error "Invalid arg ${1}. (Run ${PLIZ} --help)"
-      exit 1
-    ;;
+    -h | --help) usage ;;
+    -u | --update) update ;;
+    -v | --vfile) VFILE=1; shift 1 ;;
+    -p | --public) PUBLIC="--access=public"; shift 1 ;;
+    -c | --chlog) CHLOG=1; shift 1 ;;
+    -H | --chash) GCFMT="[%h](https://github.com/${REPO}/commit/%h) ${GCFMT}"; shift 1 ;;
+    -y | --yes) YES=1; shift 1 ;;
+    minor) MINOR=1; shift 1 ;;
+    major) MAJOR=1; shift 1 ;;
+    *) error "Invalid arg ${1}. (Run ${PLIZ} --help)"; exit 1 ;;
   esac
 done
 
@@ -240,7 +212,12 @@ fi
 # determine next version
 FEAT=`git log ${DIFF} --oneline --pretty="%s" | grep -P '^feat' || echo ""`
 if [[ $MAJOR -eq 1 ]]; then
-  NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $((a + 1)).0.0)`
+  V=""
+  if [[ $VERSION == v* ]]; then
+    V="v"
+    VERSION="${VERSION//v/}"
+  fi
+  NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $V$((a + 1)).0.0)`
 elif [[ $MINOR -eq 1 ]]; then
   NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$((b + 1)).0)`
 elif [[ "" != "$FEAT" ]]; then
