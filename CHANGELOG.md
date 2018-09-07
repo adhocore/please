@@ -1,3 +1,7 @@
+## [0.3.1] 2018-09-07 11:09:33 UTC
+
+- [36e0804](https://github.com/adhocore/please/commit/36e0804) fix(please): handle v prefix in major bump [closes #10] (Jitendra Adhikari)
+
 ## [0.3.0] 2018-08-25 15:08:45 UTC
 
 - [765922d](https://github.com/adhocore/please/commit/765922d) docs(readme): --yes [closes #9] (Jitendra Adhikari)
