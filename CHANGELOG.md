@@ -1,3 +1,7 @@
+## [0.3.2] 2018-09-11 10:09:53 UTC
+
+- fix(please): use readlink instead (Jitendra Adhikari)
+
 ## [0.3.1] 2018-09-07 11:09:33 UTC
 
 - [36e0804](https://github.com/adhocore/please/commit/36e0804) fix(please): handle v prefix in major bump [closes #10] (Jitendra Adhikari)
