@@ -132,6 +132,7 @@ publish-npm()
 
   if [ "true" == "$PVT" ]; then
     info "  package marked private"
+    return 0
   elif [ ! -f ~/.npmrc ]; then
     npm adduser
   elif [[ "" = "$(cat ~/.npmrc | grep _authToken || echo '')" ]]; then
