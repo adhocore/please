@@ -1,3 +1,7 @@
+## [0.3.3] 2018-09-12 13:09:42 UTC
+
+- [c6f1094](https://github.com/adhocore/please/commit/c6f1094) fix(please): npm publish skip if private (Jitendra Adhikari)
+
 ## [0.3.2] 2018-09-11 10:09:53 UTC
 
 - fix(please): use readlink instead (Jitendra Adhikari)
