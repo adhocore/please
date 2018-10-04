@@ -1,3 +1,7 @@
+## [0.3.4] 2018-10-04 14:10:00 UTC
+
+- [3ae11a2](https://github.com/adhocore/please/commit/3ae11a2) fix(please): use single quote instead of double in json body [fixes #13] (Jitendra Adhikari)
+
 ## [0.3.3] 2018-09-12 13:09:42 UTC
 
 - [c6f1094](https://github.com/adhocore/please/commit/c6f1094) fix(please): npm publish skip if private (Jitendra Adhikari)
