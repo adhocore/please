@@ -279,7 +279,7 @@ fi
 
 # release
 info "Releasing $NEXT_VERSION ..."
-COMMITS=`echo -e "$COMMITS" | sed -z 's/\n/<br>/g'`
+COMMITS=`echo -e "$COMMITS" | sed -z "s/\n/<br>/g; s/\"/'/g"`
 LAST_RELEASE_ID=`github \
   "-H 'Content-Type: application/json' \
   -d '{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"${COMMITS}\"}' \
