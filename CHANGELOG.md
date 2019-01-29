@@ -1,3 +1,7 @@
+## [0.3.5] 2019-01-29 07:01:39 UTC
+
+- [fc69229](https://github.com/adhocore/please/commit/fc69229) fix: git push after npm-publish last (Jitendra Adhikari)
+
 ## [0.3.4] 2018-10-04 14:10:00 UTC
 
 - [3ae11a2](https://github.com/adhocore/please/commit/3ae11a2) fix(please): use single quote instead of double in json body [fixes #13] (Jitendra Adhikari)
