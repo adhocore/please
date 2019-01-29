@@ -265,16 +265,16 @@ if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
   ok "  Done [${NEXT_VERSION}]"
 fi
 
+# do we need to publish npm?
+if [ -f ./package.json ]; then
+  publish-npm
+fi
+
 # push changes
 if [[ $GPUSH -eq 1 ]]; then
   info "Pushing pending commits ..."
   qgit push origin master
   ok
-fi
-
-# do we need to publish npm?
-if [ -f ./package.json ]; then
-  publish-npm
 fi
 
 # release
