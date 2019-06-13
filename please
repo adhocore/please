@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Simple github release for PHP &/or NodeJS projects.
-# 
+#
 # Author:
 #   Jitendra Adhikari <jiten.adhikary@gmail.com>
 #
@@ -128,7 +128,7 @@ publish-npm()
 
   info "Publishing npm ..."
   echo ${PKG} | jq ".version = \"${NEXT_VERSION}\"" > ./package.json
-  qgit add ./package.json && qgit commit -m "chore: bump package.version [skip ci]" && GPUSH=1
+  qgit add ./package.json && GPUSH=1
 
   if [ "true" == "$PVT" ]; then
     info "  package marked private"
@@ -253,7 +253,7 @@ if [[ $CHLOG -eq 1 ]]; then
   echo -e "## [${NEXT_VERSION}] $(date -u '+%Y-%m-%d %H:%m:%S') UTC\n" > ./CHANGELOG.md
   echo -e "${COMMITS}" | sed -e 's/^/- /' >> ./CHANGELOG.md
   echo -e "${OLD}" >> ./CHANGELOG.md
-  qgit add ./CHANGELOG.md && qgit commit -m "chore: update changelog [skip ci]" && GPUSH=1
+  qgit add ./CHANGELOG.md && GPUSH=1
   ok
 fi
 
@@ -261,7 +261,7 @@ fi
 if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
   info "Bumping version ..."
   echo "${NEXT_VERSION}" > ./VERSION
-  qgit add ./VERSION && qgit commit -m "chore: bump version [skip ci]" && GPUSH=1
+  qgit add ./VERSION && GPUSH=1
   ok "  Done [${NEXT_VERSION}]"
 fi
 
@@ -272,6 +272,7 @@ fi
 
 # push changes
 if [[ $GPUSH -eq 1 ]]; then
+  qgit commit -m "chore: bump version, update changelog [skip ci]"
   info "Pushing pending commits ..."
   qgit push origin master
   ok
