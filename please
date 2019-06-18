@@ -286,7 +286,7 @@ LAST_RELEASE_ID=`github \
   -d '{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"${COMMITS}\"}' \
   https://api.${GH_REPO}/releases" \
     | jq -r '.id?'`
-ok
+ok "  Done (https://github.com/$REPO/releases/tag/$NEXT_VERSION)"
 
 if [ "null" == "$LAST_RELEASE_ID" ]; then
   error "Something went wrong"
