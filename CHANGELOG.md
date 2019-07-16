@@ -1,3 +1,8 @@
+## [0.4.0] 2019-07-16 06:07:43 UTC
+
+- [9a029e9](https://github.com/adhocore/please/commit/9a029e9) chore: print new release url after released (Jitendra Adhikari)
+- [8285835](https://github.com/adhocore/please/commit/8285835) feat: aggregate chore commits (Jitendra Adhikari)
+
 ## [0.3.5] 2019-01-29 07:01:39 UTC
 
 - [fc69229](https://github.com/adhocore/please/commit/fc69229) fix: git push after npm-publish last (Jitendra Adhikari)
