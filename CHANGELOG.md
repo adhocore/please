@@ -1,3 +1,8 @@
+## [0.5.0] 2019-07-21 05:07:51 UTC
+
+- [1241b7a](https://github.com/adhocore/please/commit/1241b7a) docs: about --version/-V (Jitendra Adhikari)
+- [a7c0a11](https://github.com/adhocore/please/commit/a7c0a11) feat(please): possibility to release exact version (Jitendra Adhikari)
+
 ## [0.4.0] 2019-07-16 06:07:43 UTC
 
 - [9a029e9](https://github.com/adhocore/please/commit/9a029e9) chore: print new release url after released (Jitendra Adhikari)
