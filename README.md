@@ -82,6 +82,7 @@ minor     Bumps the <minor> part of semver.
 -p --public  Set scoped npm package for public access.
 -u --update  Update please to latest version.
 -v --vfile   Forces creation of VERSION file.
+-V --version Forces the exact version to be released.
 -y --yes     Assume yes for any confirmation.
 ```
 
