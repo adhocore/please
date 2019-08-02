@@ -85,6 +85,26 @@ update()
   exit 0
 }
 
+get-box()
+{
+  case `php -r "echo substr(phpversion(), 0, 3);"` in
+    7.2 | 7.3 | 7.4) BOX_VER=3.8.0 ;;
+    7.1) BOX_VER=3.7.0 ;;
+    7.0 | 5.6 | 5.5 | 5.4 | 5.3) BOX_VER=2.7.5 ;;
+    *) echo "Can't determine box.phar version"; exit 1 ;;
+  esac
+
+  if [ ! -e ~/box.$BOX_VER.phar ]; then
+    if [ "$BOX_VER" == "2.7.5" ]; then
+      curl -sSLo ~/box.$BOX_VER.phar "https://github.com/box-project/box2/releases/download/2.7.5/box-2.7.5.phar" >> $TMP_LOG
+    else
+      curl -sSLo ~/box.$BOX_VER.phar "https://github.com/humbug/box/releases/download/$BOX_VER/box.phar" >> $TMP_LOG
+    fi
+  fi
+
+  echo `realpath ~/box.$BOX_VER.phar`
+}
+
 # publish phar
 publish-phar()
 {
@@ -95,17 +115,12 @@ publish-phar()
     exit 1
   fi
 
-  if [ ! -f ~/box.phar ]; then
-    info "Fetching box.phar ..."
-    curl -sSLo ~/box.phar "https://github.com/humbug/box/releases/download/3.0.0-beta.4/box.phar"
-  fi
-
   info "Cleaning up ..."
   rm -rf ./vendor/cov
   ok
 
   info "Compiling phar ..."
-  php ~/box.phar compile >> ${TMP_LOG}
+  php `get-box` compile >> ${TMP_LOG}
   ok
 
   PHAR_FILE=`realpath ${PBIN}.phar`
