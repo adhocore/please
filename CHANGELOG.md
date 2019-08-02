@@ -1,3 +1,7 @@
+## [0.6.0] 2019-08-02 14:08:33 UTC
+
+- feat(box): use box.phar version according as php version (Jitendra Adhikari) | [23edd43](https://github.com/adhocore/please/commit/23edd43)
+
 ## [0.5.0] 2019-07-21 05:07:51 UTC
 
 - [1241b7a](https://github.com/adhocore/please/commit/1241b7a) docs: about --version/-V (Jitendra Adhikari)
