@@ -160,12 +160,6 @@ publish-npm()
   ok
 }
 
-REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
-if [ "" == "$REPO" ]; then
-  error "$(pwd) is not git repo"
-  exit 1
-fi
-
 GCFMT="%s (%an)"    # git commit log format
 
 # argv parsing
@@ -185,6 +179,12 @@ do
     *) error "Invalid arg ${1}. (Run ${PLIZ} --help)"; exit 1 ;;
   esac
 done
+
+REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
+if [ "" == "$REPO" ]; then
+  error "$(pwd) is not git repo"
+  exit 1
+fi
 
 GPUSH=0             # git push pending
 MAJOR=${MAJOR:-0}   # bump major
