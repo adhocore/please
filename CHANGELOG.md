@@ -1,3 +1,7 @@
+## [0.6.1] 2019-08-02 15:08:21 UTC
+
+- [aa92bc6](https://github.com/adhocore/please/commit/aa92bc6) fix: check git repo after parsing args (Jitendra Adhikari)
+
 ## [0.6.0] 2019-08-02 14:08:33 UTC
 
 - feat(box): use box.phar version according as php version (Jitendra Adhikari) | [23edd43](https://github.com/adhocore/please/commit/23edd43)
