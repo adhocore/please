@@ -171,7 +171,7 @@ do
     -v | --vfile) VFILE=1; shift 1 ;;
     -p | --public) PUBLIC="--access=public"; shift 1 ;;
     -c | --chlog) CHLOG=1; shift 1 ;;
-    -H | --chash) GCFMT="[%h](https://github.com/${REPO}/commit/%h) ${GCFMT}"; shift 1 ;;
+    -H | --chash) GCFMT="${GCFMT} [_%h_](https://github.com/${REPO}/commit/%h)"; shift 1 ;;
     -y | --yes) YES=1; shift 1 ;;
     -V | --version) NEXT_VERSION=$2; shift 2 ;;
     minor) MINOR=1; shift 1 ;;
