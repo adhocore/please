@@ -203,7 +203,7 @@ publish-npm()
 }
 
 GCFMT="%s (%an)"    # git commit log format
-REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
+REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/https:\/\/github.com\///;s/.git//'`
 
 # argv parsing
 while [[ $# -gt 0 ]]
