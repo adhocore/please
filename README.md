@@ -76,14 +76,16 @@ minor     Bumps the <minor> part of semver.
 ### Options
 
 ```
--c --chlog   Forces creation of CHANGELOG.md file.
--h --help    Show help information and usage.
--H --chash   Prepends commit hash into log.
--p --public  Set scoped npm package for public access.
--u --update  Update please to latest version.
--v --vfile   Forces creation of VERSION file.
--V --version Forces the exact version to be released.
--y --yes     Assume yes for any confirmation.
+  -c --chlog     Forces creation of CHANGELOG.md file.
+  -h --help      Show help information and usage.
+  -H --chash     Prepends commit hash into log.
+  -o --organize  Commit types as CSV for changelog or release notes.
+                 (Default: feat,fix,refactor,perf,docs,infra,chore)
+  -p --public    Set scoped npm package for public access.
+  -u --update    Update _please to latest version.
+  -v --vfile     Forces creation of VERSION file.
+  -V --version   Forces the exact version to be released.
+  -y --yes       Assume yes for any confirmation.```
 ```
 
 ### Examples
@@ -91,9 +93,11 @@ minor     Bumps the <minor> part of semver.
 ```sh
 please
 please --update
+please --organize feat,fix,docs  # only features, fixes and docs are included
 please --vfile --chash
 please minor --public --yes
 please major --vfile --chlog
+please --vfile --chlog --chash --version 1.5.0
 ```
 
 #### Note
