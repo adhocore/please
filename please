@@ -280,6 +280,7 @@ fi
 echo $COMMITS >> $TMP_LOG
 
 # determine next version
+info "Bumping version ..."
 if [[ "" = "$NEXT_VERSION" ]]; then
   FEAT=`git log ${DIFF} --oneline --pretty="%s" | grep -P '^feat' || echo ""`
   if [[ $MAJOR -eq 1 ]]; then
@@ -297,6 +298,7 @@ if [[ "" = "$NEXT_VERSION" ]]; then
     NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1)))`
   fi
 fi
+ok "  Done [${NEXT_VERSION}]"
 
 if [[ $YES -eq 0 ]]; then
   read -p "Are you sure to release [${NEXT_VERSION}]? [y/N] " -n 1 -r
@@ -321,17 +323,15 @@ fi
 # changelog file
 if [[ $CHLOG -eq 1 ]]; then
   info "Updating changelog ..."
-  echo -e "## [${NEXT_VERSION}](https://github.com/$REPO/releases/tag/$NEXT_VERSION) ($(date -u '+%Y-%m-%d')) UTC\n\n${COMMITS}${OLD}" > ./CHANGELOG.md
+  echo -e "## [${NEXT_VERSION}](https://github.com/$REPO/releases/tag/$NEXT_VERSION) ($(date -u '+%Y-%m-%d'))\n\n${COMMITS}${OLD}" > ./CHANGELOG.md
   qgit add ./CHANGELOG.md && GPUSH=1
   ok
 fi
 
 # version file
 if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
-  info "Bumping version ..."
   echo "${NEXT_VERSION}" > ./VERSION
   qgit add ./VERSION && GPUSH=1
-  ok "  Done [${NEXT_VERSION}]"
 fi
 
 # do we need to publish npm?
@@ -349,15 +349,15 @@ fi
 
 # release
 info "Releasing $NEXT_VERSION ..."
-COMMITS=`echo -e "$COMMITS" | sed -z "s/\n/<br>/g; s/\"/'/g"`
-LAST_RELEASE_ID=`github \
-  "-H 'Content-Type: application/json' \
-  -d '{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"${COMMITS}\"}' \
-  https://api.${GH_REPO}/releases" \
+COMMITS=`printf %s "$COMMITS"`
+LAST_RELEASE_ID=`curl --silent -H "Authorization: token ${GH_AUTH_TOKEN}" \
+  -H 'Content-Type: application/json' \
+  -d "{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"$COMMITS\"}" \
+  https://api.${GH_REPO}/releases \
     | jq -r '.id?'`
 ok "  Done (https://github.com/$REPO/releases/tag/$NEXT_VERSION)"
 
-if [ "null" == "$LAST_RELEASE_ID" ]; then
+if [ "null" == "${LAST_RELEASE_ID:-null}" ]; then
   error "Something went wrong"
   info "Check ${TMP_LOG} for logs"
   exit 1
