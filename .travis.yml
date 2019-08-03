@@ -1,0 +1,14 @@
+sudo: required
+
+language: bash
+
+install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y jq
+  - chmod +x please
+
+script:
+  - bash -n ./please
+
+after_success:
+  - '[ "${TRAVIS_BRANCH}" == "master" ] && ./please --vfile --chlog --chash --yes'
