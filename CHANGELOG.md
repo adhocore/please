@@ -1,3 +1,23 @@
+## [0.7.0](https://github.com/adhocore/please/releases/tag/0.7.0) (2019-08-03) UTC
+
+### Features
+- Support -o|--organize option to control changelog (Jitendra Adhikari) [_062c513_](https://github.com/adhocore/please/commit/062c513)
+- Organize commits by type (Jitendra Adhikari) [_de961ba_](https://github.com/adhocore/please/commit/de961ba)
+
+### Bug Fixes
+- Push to deploy branch (Jitendra Adhikari) [_6c83e0d_](https://github.com/adhocore/please/commit/6c83e0d)
+- Support https origin url (Jitendra Adhikari) [_37a2699_](https://github.com/adhocore/please/commit/37a2699)
+- Change release header to [version] (date) (Jitendra Adhikari) [_07ec9b9_](https://github.com/adhocore/please/commit/07ec9b9)
+
+### Internal Refactors
+- Prepare travis support, skip update if current branch is deploy branch (Jitendra Adhikari) [_ceb61da_](https://github.com/adhocore/please/commit/ceb61da)
+- Place commit hash at last (Jitendra Adhikari) [_1ba31fe_](https://github.com/adhocore/please/commit/1ba31fe)
+
+### Documentations
+- Include --organize option (Jitendra Adhikari) [_2bdefa3_](https://github.com/adhocore/please/commit/2bdefa3)
+- Update changelog sample (Jitendra Adhikari) [_22e918d_](https://github.com/adhocore/please/commit/22e918d)
+
+
 ## [0.6.1] 2019-08-02 15:08:21 UTC
 
 - [aa92bc6](https://github.com/adhocore/please/commit/aa92bc6) fix: check git repo after parsing args (Jitendra Adhikari)
