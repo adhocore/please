@@ -7,12 +7,6 @@
 - Remove UTC in changelog, use direct curl to release, relocate bump info (Jitendra Adhikari) [_cffbb1e_](https://github.com/adhocore/please/commit/cffbb1e)
 
 
-## [0.8.0](https://github.com/adhocore/please/releases/tag/0.8.0) (2019-08-03)
-
-### Internal Refactors
-- Remove UTC in changelog, use direct curl to release, relocate bump info (Jitendra Adhikari) [_cffbb1e_](https://github.com/adhocore/please/commit/cffbb1e)
-
-
 ## [0.7.0](https://github.com/adhocore/please/releases/tag/0.7.0) (2019-08-03) UTC
 
 ### Features
