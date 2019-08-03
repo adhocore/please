@@ -317,7 +317,7 @@ fi
 # changelog file
 if [[ $CHLOG -eq 1 ]]; then
   info "Updating changelog ..."
-  echo -e "## [${NEXT_VERSION}] $(date -u '+%Y-%m-%d %H:%m:%S') UTC\n\n${COMMITS}${OLD}" > ./CHANGELOG.md
+  echo -e "## [${NEXT_VERSION}](https://github.com/$REPO/releases/tag/$NEXT_VERSION) ($(date -u '+%Y-%m-%d')) UTC\n\n${COMMITS}${OLD}" > ./CHANGELOG.md
   qgit add ./CHANGELOG.md && GPUSH=1
   ok
 fi
