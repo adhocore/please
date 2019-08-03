@@ -282,7 +282,7 @@ echo $COMMITS >> $TMP_LOG
 # determine next version
 info "Bumping version ..."
 if [[ "" = "$NEXT_VERSION" ]]; then
-  FEAT=`git log ${DIFF} --oneline --pretty="%s" | grep -P '^feat' || echo ""`
+  FEAT=`git log ${RANGE} --oneline --pretty="%s" | grep -P '^feat' || echo ""`
   if [[ $MAJOR -eq 1 ]]; then
     V=""
     if [[ $VERSION == v* ]]; then
