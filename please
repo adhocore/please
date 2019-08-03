@@ -343,7 +343,7 @@ fi
 if [[ $GPUSH -eq 1 ]]; then
   qgit commit -m "chore: bump version, update changelog [skip ci]"
   info "Pushing pending commits ..."
-  qgit push origin master
+  qgit push origin $DEPLOY_BRANCH
   ok
 fi
 
