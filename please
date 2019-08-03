@@ -75,6 +75,44 @@ USAGE
   exit 0
 }
 
+# organize commits
+organize-commits() # $1 = diff_range, $2 = commit_type
+{
+  declare -A LABELS=(
+    [feat]=Features
+    [fix]="Bug Fixes"
+    [refactor]="Internal Refactors"
+    [perf]="Performance Improvements"
+    [test]=Tests
+    [docs]=Documentations
+    [chore]=Miscellaneous
+    [style]="Code Standards"
+    [infra]="Infrastructure Changes"
+  )
+
+  declare -A CHANGELOG
+
+  while read -r COMMIT; do
+    if [[ $COMMIT =~ ^([a-z]+)\(?([^\)]+)?\)?:\ (.+) ]]; then
+      type="${BASH_REMATCH[1]}" scope="${BASH_REMATCH[2]}" subject="${BASH_REMATCH[3]}"
+      if [[ "$scope" != "" ]]; then scope="**${scope^}**: "; fi
+
+      CHANGELOG[$type]="${CHANGELOG[$type]}- ${scope}${subject^}\n"
+    fi
+  done <<< `git log $1 --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
+
+  ORGANIZED=""
+  TYPES=(`echo ${2:-feat,fix,refactor,perf,docs,infra,chore} | tr ',' '\n'`)
+
+  for TYPE in ${TYPES[@]}; do
+    if [[ "${CHANGELOG[$TYPE]}" != "" ]]; then
+      ORGANIZED="$ORGANIZED### ${LABELS[$TYPE]}\n${CHANGELOG[$TYPE]}\n"
+    fi
+  done
+
+  echo $ORGANIZED
+}
+
 # update please
 update()
 {
@@ -85,6 +123,7 @@ update()
   exit 0
 }
 
+# get box.phar path
 get-box()
 {
   case `php -r "echo substr(phpversion(), 0, 3);"` in
@@ -161,6 +200,7 @@ publish-npm()
 }
 
 GCFMT="%s (%an)"    # git commit log format
+REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
 
 # argv parsing
 while [[ $# -gt 0 ]]
@@ -180,7 +220,6 @@ do
   esac
 done
 
-REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/.git//'`
 if [ "" == "$REPO" ]; then
   error "$(pwd) is not git repo"
   exit 1
@@ -211,16 +250,16 @@ ok
 
 info "Getting latest releases ..."
 VERSION=`github "https://api.${GH_REPO}/releases?per_page=1" | jq -r '.[0]?.tag_name?'`
-DIFF="${VERSION}..HEAD"
+RANGE="${VERSION}..HEAD"
 
 if [ "null" == "$VERSION" ]; then
   VERSION="0.0.0"
-  DIFF=""
+  RANGE=""
 fi
 ok "  Done [${VERSION}]"
 
 info "Collecting commits ..."
-COMMITS=`git log ${DIFF} --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
+COMMITS=`organize-commits "$RANGE"`
 ok
 
 if [ "" == "$COMMITS" ]; then
@@ -272,9 +311,7 @@ fi
 # changelog file
 if [[ $CHLOG -eq 1 ]]; then
   info "Updating changelog ..."
-  echo -e "## [${NEXT_VERSION}] $(date -u '+%Y-%m-%d %H:%m:%S') UTC\n" > ./CHANGELOG.md
-  echo -e "${COMMITS}" | sed -e 's/^/- /' >> ./CHANGELOG.md
-  echo -e "${OLD}" >> ./CHANGELOG.md
+  echo -e "## [${NEXT_VERSION}] $(date -u '+%Y-%m-%d %H:%m:%S') UTC\n\n${COMMITS}${OLD}" > ./CHANGELOG.md
   qgit add ./CHANGELOG.md && GPUSH=1
   ok
 fi
