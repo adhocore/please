@@ -244,9 +244,15 @@ ok "Repository ${REPO}"
 TMP_LOG=`tempfile -p PLZ`
 info "Log file ${TMP_LOG}"
 
-info "Updating master ..."
-qgit stash && qgit checkout master && qgit fetch --tags && qgit pull origin master --rebase
-ok
+DEPLOY_BRANCH="${DEPLOY_BRANCH:-master}"
+if [ -z "$TRAVIS" ] || [ "$DEPLOY_BRANCH" == "$TRAVIS_BRANCH" ]; then
+  info "Updating $DEPLOY_BRANCH ..."
+  qgit stash && qgit checkout $DEPLOY_BRANCH && qgit fetch --tags && qgit pull origin $DEPLOY_BRANCH --rebase
+  ok
+else
+  info "Skip release"
+  exit 0
+fi
 
 info "Getting latest releases ..."
 VERSION=`github "https://api.${GH_REPO}/releases?per_page=1" | jq -r '.[0]?.tag_name?'`
