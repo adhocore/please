@@ -1,3 +1,9 @@
+## [0.8.1](https://github.com/adhocore/please/releases/tag/0.8.1) (2019-08-07)
+
+### Bug Fixes
+- Info => echo (Jitendra Adhikari)
+
+
 ## [0.8.0](https://github.com/adhocore/please/releases/tag/0.8.0) (2019-08-07)
 
 ### Features
