@@ -8,7 +8,7 @@ Actually you can release any thing not just PHP/Nodejs. Please itself is [releas
 
 ![Help Preview](https://imgur.com/BOrHs9E.png "Help Preview")
 
-#### Working
+#### Working Mechanism
 
 - Determine remote git repo based on local git config
 - Checkout and Update `master`
@@ -57,7 +57,7 @@ Make sure to set only bare minimum permission scopes for this token.
 
 **Important**: Tokens are to be treated and kept as much secret as passwords.
 
-## Usage
+## Usage and Examples
 
 Make sure you have already merged required commits to `master` branch in Github,
 then go to the root of any project you want to release and run:
@@ -103,18 +103,6 @@ Examples:
   please minor --public --yes             # releases minor version without asking
   please major --vfile --chlog            # releases next major version with VERSION and CHANGELOG files
   please --vfile --chlog --version 1.5.0  # releases version 1.5.0 with VERSION and CHANGELOG files
-```
-
-### Examples
-
-```sh
-please
-please --update
-please --organize feat,fix,docs  # only features, fixes and docs are included
-please --vfile --chash
-please minor --public --yes
-please major --vfile --chlog
-please --vfile --chlog --chash --version 1.5.0
 ```
 
 #### Note
