@@ -1,3 +1,12 @@
+## [0.8.0](https://github.com/adhocore/please/releases/tag/0.8.0) (2019-08-07)
+
+### Features
+- Add version command, bump version on --update (Jitendra Adhikari)
+
+### Documentations
+- Update --help output (Jitendra Adhikari)
+
+
 ## [0.7.1](https://github.com/adhocore/please/releases/tag/0.7.1) (2019-08-03)
 
 ### Bug Fixes
