@@ -134,7 +134,7 @@ update()
 
   info "Updating ${PLIZ} ..."
   curl -sSLo ${FULL} https://raw.githubusercontent.com/adhocore/please/master/please
-  sed -ie "s/info v'.*'/info v'$(echo $NEWVER)'/" $FULL
+  sed -ie "s/echo v'.*'/echo v'$(echo $NEWVER)'/" $FULL
   ok "  Done [${NEWVER}]"
   exit 0
 }
