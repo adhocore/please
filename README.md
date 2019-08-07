@@ -66,26 +66,43 @@ then go to the root of any project you want to release and run:
 please [Scope] [Options]
 ```
 
-### Scope
-
 ```
-major     Bumps the <major> part of semver.
-minor     Bumps the <minor> part of semver.
-```
+please v0.8.0 | (c) Jitendra Adhikari
+please is github release made easy. If you embrace semver this is the right tool.
 
-### Options
+Usage:
+  please [command]
+  please [scope] [--options]
 
-```
+Commands:
+  version  Print current version of itself.
+  help     Show help information and usage.
+
+Scope:
+  major  Bumps the <major> part of semver.
+  minor  Bumps the <minor> part of semver.
+
+Options:
   -c --chlog     Forces creation of CHANGELOG.md file.
   -h --help      Show help information and usage.
   -H --chash     Prepends commit hash into log.
   -o --organize  Commit types as CSV for changelog or release notes.
                  (Default: feat,fix,refactor,perf,docs,infra,chore)
   -p --public    Set scoped npm package for public access.
-  -u --update    Update _please to latest version.
+  -u --update    Update please to latest version.
   -v --vfile     Forces creation of VERSION file.
   -V --version   Forces the exact version to be released.
-  -y --yes       Assume yes for any confirmation.```
+  -y --yes       Assume yes for any confirmation.
+
+Examples:
+  please
+  please version                          # prints current version of itself
+  please --update                         # updates please if new version available
+  please --organize feat,fix,docs         # includes only features, fixes and docs
+  please --vfile --chash                  # creates VERSION file, adds commit hash
+  please minor --public --yes             # releases minor version without asking
+  please major --vfile --chlog            # releases next major version with VERSION and CHANGELOG files
+  please --vfile --chlog --version 1.5.0  # releases version 1.5.0 with VERSION and CHANGELOG files
 ```
 
 ### Examples
