@@ -10,6 +10,8 @@
 
 set -e
 
+declare -A EVENTS
+
 FULL=`readlink -f $0` # fullpath
 PLIZ=`basename $0`    # name
 
@@ -200,7 +202,6 @@ publish-npm()
   PKG=`cat ./package.json`
   PVT=`echo ${PKG} | jq -r '.private?'`
 
-  info "Publishing npm ..."
   echo ${PKG} | jq ".version = \"${NEXT_VERSION}\"" > ./package.json
   qgit add ./package.json && GPUSH=1
 
@@ -213,8 +214,23 @@ publish-npm()
     npm adduser
   fi
 
+  trigger before-npm
+  info "Publishing npm ..."
   npm publish ${PUBLIC} &>> ${TMP_LOG}
   ok
+}
+
+# trigger event
+trigger() # $1 = event
+{
+  local EVENT="--$1"
+  local CMD="${EVENTS[$EVENT]}"
+
+  if [[ "$CMD" != "" ]]; then
+    echo "$(info Running) $(ok "$EVENT")"
+    comment "> $CMD"
+    eval "${CMD//{/\${}"
+  fi
 }
 
 GCFMT="%s (%an)"    # git commit log format
@@ -233,6 +249,7 @@ do
     -y | --yes) YES=1; shift 1 ;;
     -V | --version) NEXT_VERSION=$2; shift 2 ;;
     -o | --organize) TYPES=$2; shift 2 ;;
+    --before-* | --after-*) EVENTS[$1]="$2"; shift 2 ;;
     version) version; exit 0 ;;
     minor) MINOR=1; shift 1 ;;
     major) MAJOR=1; shift 1 ;;
@@ -265,6 +282,8 @@ TMP_LOG=`tempfile -p PLZ`
 info "Log file ${TMP_LOG}"
 
 DEPLOY_BRANCH="${DEPLOY_BRANCH:-master}"
+
+trigger before-all
 if [ -z "$TRAVIS" ] || [ "$DEPLOY_BRANCH" == "$TRAVIS_BRANCH" ]; then
   info "Updating $DEPLOY_BRANCH ..."
   qgit stash && qgit checkout $DEPLOY_BRANCH && qgit fetch --tags && qgit pull origin $DEPLOY_BRANCH --rebase
@@ -357,13 +376,16 @@ fi
 
 # push changes
 if [[ $GPUSH -eq 1 ]]; then
+  trigger before-push
   qgit commit -m "chore: bump version, update changelog [skip ci]"
   info "Pushing pending commits ..."
   qgit push origin $DEPLOY_BRANCH
   ok
 fi
 
-# release
+
+# github release
+trigger before-github
 info "Releasing $NEXT_VERSION ..."
 COMMITS=`printf %s "$COMMITS"`
 LAST_RELEASE_ID=`curl --silent -H "Authorization: token ${GH_AUTH_TOKEN}" \
@@ -371,7 +393,6 @@ LAST_RELEASE_ID=`curl --silent -H "Authorization: token ${GH_AUTH_TOKEN}" \
   -d "{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"$COMMITS\"}" \
   https://api.${GH_REPO}/releases \
     | jq -r '.id?'`
-ok "  Done (https://github.com/$REPO/releases/tag/$NEXT_VERSION)"
 
 if [ "null" == "${LAST_RELEASE_ID:-null}" ]; then
   error "Something went wrong"
@@ -379,9 +400,14 @@ if [ "null" == "${LAST_RELEASE_ID:-null}" ]; then
   exit 1
 fi
 
+RELEASE_URL="https://github.com/$REPO/releases/tag/$NEXT_VERSION"
+ok "  Done ($RELEASE_URL)"
+trigger after-release
+
 # do we need to publish phar?
 if [ -f ./box.json ] && [ -f ./composer.json ]; then
   publish-phar
 fi
 
+trigger after-all
 info "Check ${TMP_LOG} for logs"
