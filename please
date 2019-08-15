@@ -387,7 +387,6 @@ if [[ $GPUSH -eq 1 ]]; then
   ok
 fi
 
-
 # github release
 trigger before-github
 info "Releasing $NEXT_VERSION ..."

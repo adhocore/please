@@ -18,11 +18,11 @@ Actually you can release any thing not just PHP/Nodejs. Please itself is [releas
 - Bump the version as per semver, reflect that into `./VERSION` file and commit it
     - If any of the latest commits start with `feat` `<minor>` is bumped
     - But if only you didnt explicitly pass `scope` already
-- Release the new version and tag to github
 - If there is `package.json` file, bump `package.json#version` and commit it
 - If `package.json#private` is not set to `true`
     - If npm user not already logged in, run `npm adduser`
     - Run `npm publish` finally
+- Release the new version and tag to github
 - If there is `box.json` file, compile phar using `box`
     (download `box.phar` if required)
 - Upload the compiled `phar` as asset for the recent release
