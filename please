@@ -236,7 +236,9 @@ trigger() # $1 = event
 GCFMT="%s (%an)"    # git commit log format
 REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/https:\/\/github.com\///;s/.git//'`
 
-
+if [ -f ./please.json ]; then
+  eval $(cat ./please.json | jq -r 'to_entries|map("EVENTS[\(.key)]=\"\(.value)\"")|.[]')
+fi
 
 # argv parsing
 while [[ $# -gt 0 ]]
@@ -384,7 +386,6 @@ if [[ $GPUSH -eq 1 ]]; then
   qgit push origin $DEPLOY_BRANCH
   ok
 fi
-
 
 # github release
 trigger before-github
