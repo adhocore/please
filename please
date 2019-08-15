@@ -223,7 +223,7 @@ publish-npm()
 # trigger event
 trigger() # $1 = event
 {
-  local EVENT="--$1"
+  local EVENT="$1"
   local CMD="${EVENTS[$EVENT]}"
 
   if [[ "$CMD" != "" ]]; then
@@ -235,6 +235,8 @@ trigger() # $1 = event
 
 GCFMT="%s (%an)"    # git commit log format
 REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/https:\/\/github.com\///;s/.git//'`
+
+
 
 # argv parsing
 while [[ $# -gt 0 ]]
@@ -249,7 +251,7 @@ do
     -y | --yes) YES=1; shift 1 ;;
     -V | --version) NEXT_VERSION=$2; shift 2 ;;
     -o | --organize) TYPES=$2; shift 2 ;;
-    --before-* | --after-*) EVENTS[$1]="$2"; shift 2 ;;
+    --before-* | --after-*) EVENTS[${1/--}]="$2"; shift 2 ;;
     version) version; exit 0 ;;
     minor) MINOR=1; shift 1 ;;
     major) MAJOR=1; shift 1 ;;
