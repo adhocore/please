@@ -1,7 +1,7 @@
 {
   "before-all": "echo {REPO}",
   "before-npm": "node --version; npm --version",
-  "before-push": "sed -ie 's/echo v.*;/echo v{NEXT_VERSION};/' {FULL}",
+  "before-push": "sed -ie 's/echo v.*;/echo v{NEXT_VERSION};/' {FULL}; git add ./please",
   "before-vcs": "echo https://github.com/{REPO}",
   "after-all": "./please version"
 }
