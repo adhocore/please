@@ -1,3 +1,9 @@
+## [0.9.1](https://github.com/adhocore/please/releases/tag/0.9.1) (2019-08-16)
+
+### Bug Fixes
+- Event trigger eval (Jitendra Adhikari) [_a0f3d47_](https://github.com/adhocore/please/commit/a0f3d47)
+
+
 ## [0.9.0](https://github.com/adhocore/please/releases/tag/0.9.0) (2019-08-16)
 
 ### Features
