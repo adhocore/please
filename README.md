@@ -63,25 +63,20 @@ Make sure you have already merged required commits to `master` branch in Github,
 then go to the root of any project you want to release and run:
 
 ```sh
-please [Scope] [Options]
+please [Scope|Command] [Options]
 ```
 
 ```
-please v0.8.0 | (c) Jitendra Adhikari
-please is github release made easy. If you embrace semver this is the right tool.
+please v0.9.0 | (c) Jitendra Adhikari | please is semver release made easy.
 
-Usage:
-  please [command]
-  please [scope] [--options]
+Usage: please [command|scope] [--options]
 
 Commands:
-  version  Print current version of itself.
-  help     Show help information and usage.
-
+  version        Print current version of itself.
+  help           Show help information and usage examples.
 Scope:
-  major  Bumps the <major> part of semver.
-  minor  Bumps the <minor> part of semver.
-
+  major          Bumps the <major> part of semver.
+  minor          Bumps the <minor> part of semver.
 Options:
   -c --chlog     Forces creation of CHANGELOG.md file.
   -h --help      Show help information and usage.
@@ -89,11 +84,16 @@ Options:
   -o --organize  Commit types as CSV for changelog or release notes.
                  (Default: feat,fix,refactor,perf,docs,infra,chore)
   -p --public    Set scoped npm package for public access.
-  -u --update    Update please to latest version.
+  -u --update    Update _please to latest version.
   -v --vfile     Forces creation of VERSION file.
   -V --version   Forces the exact version to be released.
   -y --yes       Assume yes for any confirmation.
-
+Events:
+  --before-all   Run the command before anything (very start).
+  --before-npm   Run the command before releasing to npm.
+  --before-push  Run the command before pushing code to remote.
+  --before-vcs   Run the command before releasing to VCS.
+  --after-all    Run the command after everything finishes.
 Examples:
   please
   please version                          # prints current version of itself
@@ -103,6 +103,7 @@ Examples:
   please minor --public --yes             # releases minor version without asking
   please major --vfile --chlog            # releases next major version with VERSION and CHANGELOG files
   please --vfile --chlog --version 1.5.0  # releases version 1.5.0 with VERSION and CHANGELOG files
+  please --before-all 'echo {REPO}'       # before release, runs 'echo {REPO}' with REPO interpolated
 ```
 
 #### Note
@@ -110,7 +111,33 @@ Examples:
 - If there is `VERSION` file in project root, you dont need `--vfile` flag.
 - If there is `CHANGELOG.md` file in project root, you dont need `--chlog` flag.
 - If there is `box.json` file in project root, it builds and releases `.phar` too.
-- If no scope is given, bumps the `<patch>` part of semver.
+- If no scope is given
+  - If there is any `feat:` commit, bumps the `<minor>` part of semver.
+  - Else bumps the `<patch>` part of semver.
+
+### Events
+You can take control of the work flow or execute more tasks by using the event callbacks.
+When the event commands are triggerred they receive all the variables defined in the then moment.
+
+Currently `please` supports five events which are executed in following order:
+
+-  before-all
+-  before-npm
+-  before-push
+-  before-vcs
+-  after-all
+
+You can either set events as a json file in [./please.json](./please.json) or pass them in as option to `please` like so:
+```sh
+# run `composer test` before pushing code
+# send release notification to slack after everything finishes
+please --before-push "composer test" --after-all "slack 'Released {REPO}@{NEXT_VERSION}'"
+```
+
+> The event passed in as option will have higher precedence than the one read from `./please.json`
+
+#### Caveat
+Use only single quote in the event command. Eg: `please --before-all "echo 'a b c'"`
 
 ### Output
 
