@@ -148,7 +148,7 @@ update()
   exit 0
 }
 
-version() { echo v'0.8.0'; }
+version() { echo v0.8.1; }
 
 # get box.phar path
 get-box()
