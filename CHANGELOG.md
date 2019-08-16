@@ -1,3 +1,23 @@
+## [0.9.0](https://github.com/adhocore/please/releases/tag/0.9.0) (2019-08-16)
+
+### Features
+- Read events from please.json (can still be overridden by params) (Jitendra Adhikari) [_18512d5_](https://github.com/adhocore/please/commit/18512d5)
+- Support registering events and trigger them during lifecycle (Jitendra Adhikari) [_5d0e469_](https://github.com/adhocore/please/commit/5d0e469)
+
+### Bug Fixes
+- Version and before-push (Jitendra Adhikari) [_037a58c_](https://github.com/adhocore/please/commit/037a58c)
+- Trim leading -- from event name (Jitendra Adhikari) [_6a46030_](https://github.com/adhocore/please/commit/6a46030)
+
+### Internal Refactors
+- Update usage info, rename --before-github to --before-vcs (Jitendra Adhikari) [_262bf28_](https://github.com/adhocore/please/commit/262bf28)
+
+### Documentations
+- Update usage info, add events section (Jitendra Adhikari) [_61a8994_](https://github.com/adhocore/please/commit/61a8994)
+
+### Miscellaneous
+- Add please.json (Jitendra Adhikari) [_933e791_](https://github.com/adhocore/please/commit/933e791)
+
+
 ## [0.8.1](https://github.com/adhocore/please/releases/tag/0.8.1) (2019-08-07)
 
 ### Bug Fixes
