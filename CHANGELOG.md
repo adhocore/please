@@ -1,3 +1,9 @@
+## [0.9.2](https://github.com/adhocore/please/releases/tag/0.9.2) (2019-08-16)
+
+### Bug Fixes
+- Make sure ./please is staged before push (Jitendra Adhikari) [_eea3631_](https://github.com/adhocore/please/commit/eea3631)
+
+
 ## [0.9.1](https://github.com/adhocore/please/releases/tag/0.9.1) (2019-08-16)
 
 ### Bug Fixes
