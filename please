@@ -47,21 +47,16 @@ github()
 usage()
 {
   cat << USAGE
-${PLIZ} $(info `version`) | $(ok "(c) Jitendra Adhikari")
-${PLIZ} is github release made easy. If you embrace semver this is the right tool.
+${PLIZ} $(info `version`) | $(ok "(c) Jitendra Adhikari") | ${PLIZ} is semver release made easy.
 
-$(ok Usage:)
-  ${PLIZ} [command]
-  ${PLIZ} [scope] [--options]
+$(ok Usage:) ${PLIZ} [command|scope] [--options]
 
 $(ok Commands:)
-  $(info version)  $(comment "Print current version of itself.")
-  $(info help)     $(comment "Show help information and usage.")
-
+  $(info version)        $(comment "Print current version of itself.")
+  $(info help)           $(comment "Show help information and usage examples.")
 $(ok Scope:)
-  $(info major)  $(comment "Bumps the <major> part of semver.")
-  $(info minor)  $(comment "Bumps the <minor> part of semver.")
-
+  $(info major)          $(comment "Bumps the <major> part of semver.")
+  $(info minor)          $(comment "Bumps the <minor> part of semver.")
 $(ok Options:)
   $(info "-c --chlog")     $(comment "Forces creation of CHANGELOG.md file.")
   $(info "-h --help")      $(comment "Show help information and usage.")
@@ -73,17 +68,29 @@ $(ok Options:)
   $(info "-v --vfile")     $(comment "Forces creation of VERSION file.")
   $(info "-V --version")   $(comment "Forces the exact version to be released.")
   $(info "-y --yes")       $(comment "Assume yes for any confirmation.")
-
-$(ok Examples:)
-  please
-  please version                          $(comment "# prints current version of itself")
-  please --update                         $(comment "# updates please if new version available")
-  please --organize feat,fix,docs         $(comment "# includes only features, fixes and docs")
-  please --vfile --chash                  $(comment "# creates VERSION file, adds commit hash")
-  please minor --public --yes             $(comment "# releases minor version without asking")
-  please major --vfile --chlog            $(comment "# releases next major version with VERSION and CHANGELOG files")
-  please --vfile --chlog --version 1.5.0  $(comment "# releases version 1.5.0 with VERSION and CHANGELOG files")
+$(ok Events:)
+  $(info "--before-all")   $(comment "Run the command before anything (very start).")
+  $(info "--before-npm")   $(comment "Run the command before releasing to npm.")
+  $(info "--before-push")  $(comment "Run the command before pushing code to remote.")
+  $(info "--before-vcs")   $(comment "Run the command before releasing to VCS.")
+  $(info "--after-all")    $(comment "Run the command after everything finishes.")
+  (See https://github.com/adhocore/please#events for more info)
 USAGE
+
+  if [ "$1" == "help" ]; then
+    cat << EXAMPLE
+$(ok Examples:)
+  ${PLIZ}
+  ${PLIZ} version                          $(comment "# prints current version of itself")
+  ${PLIZ} --update                         $(comment "# updates ${PLIZ} if new version available")
+  ${PLIZ} --organize feat,fix,docs         $(comment "# includes only features, fixes and docs")
+  ${PLIZ} --vfile --chash                  $(comment "# creates VERSION file, adds commit hash")
+  ${PLIZ} minor --public --yes             $(comment "# releases minor version without asking")
+  ${PLIZ} major --vfile --chlog            $(comment "# releases next major version with VERSION and CHANGELOG files")
+  ${PLIZ} --vfile --chlog --version 1.5.0  $(comment "# releases version 1.5.0 with VERSION and CHANGELOG files")
+  ${PLIZ} --before-all 'echo {REPO}'       $(comment "# before release, runs 'echo {REPO}' with REPO interpolated")
+EXAMPLE
+  fi
   exit 0
 }
 
@@ -192,7 +199,6 @@ publish-phar()
     https://uploads.${GH_REPO}/releases/${LAST_RELEASE_ID}/assets?name=${NAME}" \
       | jq -r '.size'`
   ok
-
   info "[OK] ${NAME} ${SIZE} bytes"
 }
 
@@ -244,7 +250,7 @@ fi
 while [[ $# -gt 0 ]]
 do
   case "$1" in
-    -h | --help | help) usage ;;
+    -h | --help | help) usage $1 ;;
     -u | --update) update ;;
     -v | --vfile) VFILE=1; shift 1 ;;
     -p | --public) PUBLIC="--access=public"; shift 1 ;;
@@ -388,7 +394,7 @@ if [[ $GPUSH -eq 1 ]]; then
 fi
 
 # github release
-trigger before-github
+trigger before-vcs
 info "Releasing $NEXT_VERSION ..."
 COMMITS=`printf %s "$COMMITS"`
 LAST_RELEASE_ID=`curl --silent -H "Authorization: token ${GH_AUTH_TOKEN}" \
