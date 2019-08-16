@@ -235,7 +235,8 @@ trigger() # $1 = event
   if [[ "$CMD" != "" ]]; then
     echo "$(info Running) $(ok "$EVENT")"
     comment "> $CMD"
-    eval "${CMD//{/\${}"
+    eval "CMD=\"${CMD//{/\${}\""
+    eval "${CMD}"
   fi
 }
 
