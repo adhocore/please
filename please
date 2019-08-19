@@ -387,7 +387,7 @@ fi
 # push changes
 if [[ $GPUSH -eq 1 ]]; then
   trigger before-push
-  qgit commit -m "chore: bump version, update changelog [skip ci]"
+  qgit commit -m "release: new version $NEXT_VERSION [skip ci]"
   info "Pushing pending commits ..."
   qgit push origin $DEPLOY_BRANCH
   ok
