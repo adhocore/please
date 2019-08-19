@@ -93,6 +93,7 @@ Events:
   --before-npm   Run the command before releasing to npm.
   --before-push  Run the command before pushing code to remote.
   --before-vcs   Run the command before releasing to VCS.
+  --before-phar  Run the command before uploading phar binary.
   --after-all    Run the command after everything finishes.
 Examples:
   please
