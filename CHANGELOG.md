@@ -1,3 +1,20 @@
+## [0.9.3](https://github.com/adhocore/please/releases/tag/0.9.3) (2019-08-19)
+
+### Bug Fixes
+- No need to bump version on update anymore (Jitendra Adhikari) [_e3bb660_](https://github.com/adhocore/please/commit/e3bb660)
+
+### Internal Refactors
+- Dont use curly brace when not needed (Jitendra Adhikari) [_e4ba164_](https://github.com/adhocore/please/commit/e4ba164)
+
+### Documentations
+- Add info about before-phar (Jitendra Adhikari) [_eefd73d_](https://github.com/adhocore/please/commit/eefd73d)
+
+### Miscellaneous
+- Add/support before-phar event (Jitendra Adhikari) [_487f372_](https://github.com/adhocore/please/commit/487f372)
+- Cleanup and minify code (Jitendra Adhikari) [_2712d1a_](https://github.com/adhocore/please/commit/2712d1a)
+- Update release commit (Jitendra Adhikari) [_b8bf707_](https://github.com/adhocore/please/commit/b8bf707)
+
+
 ## [0.9.2](https://github.com/adhocore/please/releases/tag/0.9.2) (2019-08-16)
 
 ### Bug Fixes
