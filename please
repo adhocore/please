@@ -65,6 +65,7 @@ $(ok Events:)
   $(info "--before-npm")   $(comment "Run the command before releasing to npm.")
   $(info "--before-push")  $(comment "Run the command before pushing code to remote.")
   $(info "--before-vcs")   $(comment "Run the command before releasing to VCS.")
+  $(info "--before-phar")  $(comment "Run the command before uploading phar binary.")
   $(info "--after-all")    $(comment "Run the command after everything finishes.")
   (See https://github.com/adhocore/please#events for more info)
 USAGE
@@ -164,6 +165,7 @@ publish-phar()
     error "Check bin value in composer.json" 1
   fi
 
+  trigger before-phar
   info "Compiling phar ..."
   php `get-box` compile >> ${TMP_LOG}
   ok
