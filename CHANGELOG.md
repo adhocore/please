@@ -1,3 +1,9 @@
+## [0.9.4](https://github.com/adhocore/please/releases/tag/0.9.4) (2019-08-19)
+
+### Bug Fixes
+- Update version of please in the repo instead of running binary (Jitendra Adhikari) [_1a914a8_](https://github.com/adhocore/please/commit/1a914a8)
+
+
 ## [0.9.3](https://github.com/adhocore/please/releases/tag/0.9.3) (2019-08-19)
 
 ### Bug Fixes
