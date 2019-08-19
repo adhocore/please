@@ -30,26 +30,26 @@ qgit() { git "$@" &>> $TMP_LOG; }
 # github api
 github()
 {
-  RESP=`bash -c "curl --silent -H 'Authorization: token ${GH_AUTH_TOKEN}' $@"`
+  RESP=`bash -c "curl --silent -H 'Authorization: token $GH_AUTH_TOKEN' $@"`
   echo "${RESP}" >> ${TMP_LOG}
 
-  ERROR=`echo ${RESP} | jq -r '.message?'`
+  ERROR=`echo $RESP | jq -r '.message?'`
 
   if [ "" != "$ERROR" ] && [ "null" != "$ERROR" ]; then
     error "Github: $ERROR"
     exit 1
   fi
 
-  echo "${RESP}"
+  echo "$RESP"
 }
 
 # show usage
 usage()
 {
   cat << USAGE
-${PLIZ} $(info `version`) | $(ok "(c) Jitendra Adhikari") | ${PLIZ} is semver release made easy.
+$PLIZ $(info `version`) | $(ok "(c) Jitendra Adhikari") | $PLIZ is semver release made easy.
 
-$(ok Usage:) ${PLIZ} [command|scope] [--options]
+$(ok Usage:) $PLIZ [command|scope] [--options]
 
 $(ok Commands:)
   $(info version)        $(comment "Print current version of itself.")
@@ -64,7 +64,7 @@ $(ok Options:)
   $(info "-o --organize")  $(comment "Commit types as CSV for changelog or release notes.")
                  $(comment "(Default: feat,fix,refactor,perf,docs,infra,chore)")
   $(info "-p --public")    $(comment "Set scoped npm package for public access.")
-  $(info "-u --update")    $(comment "Update ${PLIZ} to latest version.")
+  $(info "-u --update")    $(comment "Update $PLIZ to latest version.")
   $(info "-v --vfile")     $(comment "Forces creation of VERSION file.")
   $(info "-V --version")   $(comment "Forces the exact version to be released.")
   $(info "-y --yes")       $(comment "Assume yes for any confirmation.")
@@ -80,15 +80,15 @@ USAGE
   if [ "$1" == "help" ]; then
     cat << EXAMPLE
 $(ok Examples:)
-  ${PLIZ}
-  ${PLIZ} version                          $(comment "# prints current version of itself")
-  ${PLIZ} --update                         $(comment "# updates ${PLIZ} if new version available")
-  ${PLIZ} --organize feat,fix,docs         $(comment "# includes only features, fixes and docs")
-  ${PLIZ} --vfile --chash                  $(comment "# creates VERSION file, adds commit hash")
-  ${PLIZ} minor --public --yes             $(comment "# releases minor version without asking")
-  ${PLIZ} major --vfile --chlog            $(comment "# releases next major version with VERSION and CHANGELOG files")
-  ${PLIZ} --vfile --chlog --version 1.5.0  $(comment "# releases version 1.5.0 with VERSION and CHANGELOG files")
-  ${PLIZ} --before-all 'echo {REPO}'       $(comment "# before release, runs 'echo {REPO}' with REPO interpolated")
+  $PLIZ
+  $PLIZ version                          $(comment "# prints current version of itself")
+  $PLIZ --update                         $(comment "# updates $PLIZ if new version available")
+  $PLIZ --organize feat,fix,docs         $(comment "# includes only features, fixes and docs")
+  $PLIZ --vfile --chash                  $(comment "# creates VERSION file, adds commit hash")
+  $PLIZ minor --public --yes             $(comment "# releases minor version without asking")
+  $PLIZ major --vfile --chlog            $(comment "# releases next major version with VERSION and CHANGELOG files")
+  $PLIZ --vfile --chlog --version 1.5.0  $(comment "# releases version 1.5.0 with VERSION and CHANGELOG files")
+  $PLIZ --before-all 'echo {REPO}'       $(comment "# before release, runs 'echo {REPO}' with REPO interpolated")
 EXAMPLE
   fi
   exit 0
@@ -118,7 +118,7 @@ organize-commits() # $1 = diff_range, $2 = commit_types_csv
 
       CHANGELOG[$type]="${CHANGELOG[$type]}- ${scope}${subject^}\n"
     fi
-  done <<< `git log $1 --no-merges --oneline --pretty="${GCFMT}" --grep "skip ci" --grep "StyleCI" --invert-grep`
+  done <<< `git log $1 --no-merges --oneline --pretty="$GCFMT" --grep "skip ci" --grep "StyleCI" --invert-grep`
 
   ORGANIZED=""
   TYPES=(`echo ${2:-feat,fix,refactor,perf,docs,infra,chore} | tr ',' '\n'`)
@@ -141,7 +141,7 @@ update()
     exit 0
   fi
 
-  info "Updating ${PLIZ} ..."
+  info "Updating $PLIZ ..."
   curl -sSLo ${FULL} https://raw.githubusercontent.com/adhocore/please/master/please
   ok "  Done [${NEWVER}]"
   exit 0
@@ -188,26 +188,26 @@ publish-phar()
   php `get-box` compile >> ${TMP_LOG}
   ok
 
-  PHAR_FILE=`realpath ${PBIN}.phar`
-  NAME=`basename ${PHAR_FILE}`
+  PHAR_FILE=`realpath $PBIN.phar`
+  NAME=`basename $PHAR_FILE`
   info "Publishing phar ..."
 
   SIZE=`github \
     "-H 'Content-Type: application/octet-stream' \
-    --data-binary @${PHAR_FILE} \
-    https://uploads.${GH_REPO}/releases/${LAST_RELEASE_ID}/assets?name=${NAME}" \
+    --data-binary @$PHAR_FILE \
+    https://uploads.$GH_REPO/releases/$LAST_RELEASE_ID/assets?name=$NAME" \
       | jq -r '.size'`
   ok
-  info "[OK] ${NAME} ${SIZE} bytes"
+  info "[OK] $NAME $SIZE bytes"
 }
 
 # publish npm
 publish-npm()
 {
   PKG=`cat ./package.json`
-  PVT=`echo ${PKG} | jq -r '.private?'`
+  PVT=`echo $PKG | jq -r '.private?'`
 
-  echo ${PKG} | jq ".version = \"${NEXT_VERSION}\"" > ./package.json
+  echo $PKG | jq ".version = \"$NEXT_VERSION\"" > ./package.json
   qgit add ./package.json && GPUSH=1
 
   if [ "true" == "$PVT" ]; then
@@ -221,7 +221,7 @@ publish-npm()
 
   trigger before-npm
   info "Publishing npm ..."
-  npm publish ${PUBLIC} &>> ${TMP_LOG}
+  npm publish $PUBLIC &>> $TMP_LOG
   ok
 }
 
@@ -235,7 +235,7 @@ trigger() # $1 = event
     echo "$(info Running) $(ok "$EVENT")"
     comment "> $CMD"
     eval "CMD=\"${CMD//{/\${}\""
-    eval "${CMD}"
+    eval "$CMD"
   fi
 }
 
@@ -255,7 +255,7 @@ do
     -v | --vfile) VFILE=1; shift 1 ;;
     -p | --public) PUBLIC="--access=public"; shift 1 ;;
     -c | --chlog) CHLOG=1; shift 1 ;;
-    -H | --chash) GCFMT="${GCFMT} [_%h_](https://github.com/${REPO}/commit/%h)"; shift 1 ;;
+    -H | --chash) GCFMT="$GCFMT [_%h_](https://github.com/$REPO/commit/%h)"; shift 1 ;;
     -y | --yes) YES=1; shift 1 ;;
     -V | --version) NEXT_VERSION=$2; shift 2 ;;
     -o | --organize) TYPES=$2; shift 2 ;;
@@ -263,7 +263,7 @@ do
     version) version; exit 0 ;;
     minor) MINOR=1; shift 1 ;;
     major) MAJOR=1; shift 1 ;;
-    *) error "Invalid arg ${1}. (Run ${PLIZ} --help)"; exit 1 ;;
+    *) error "Invalid arg $1. (Run $PLIZ --help)"; exit 1 ;;
   esac
 done
 
@@ -280,16 +280,16 @@ CHLOG=${CHLOG:-0}   # create changelog file
 YES=${YES:-0}       # assume yes
 
 # gh auth
-if [ -z "${GH_AUTH_TOKEN}" ]; then
+if [ -z "$GH_AUTH_TOKEN" ]; then
   error "GH_AUTH_TOKEN missing"
   exit 1
 fi
 
-GH_REPO="github.com/repos/${REPO}"
-ok "Repository ${REPO}"
+GH_REPO="github.com/repos/$REPO"
+ok "Repository $REPO"
 
 TMP_LOG=`tempfile -p PLZ`
-info "Log file ${TMP_LOG}"
+info "Log file $TMP_LOG"
 
 DEPLOY_BRANCH="${DEPLOY_BRANCH:-master}"
 
@@ -304,14 +304,14 @@ else
 fi
 
 info "Getting latest releases ..."
-VERSION=`github "https://api.${GH_REPO}/releases?per_page=1" | jq -r '.[0]?.tag_name?'`
-RANGE="${VERSION}..HEAD"
+VERSION=`github "https://api.$GH_REPO/releases?per_page=1" | jq -r '.[0]?.tag_name?'`
+RANGE="$VERSION..HEAD"
 
 if [ "null" == "$VERSION" ]; then
   VERSION="0.0.0"
   RANGE=""
 fi
-ok "  Done [${VERSION}]"
+ok "  Done [$VERSION]"
 
 info "Collecting commits ..."
 COMMITS=`organize-commits "$RANGE" "$TYPES"`
@@ -327,7 +327,7 @@ echo $COMMITS >> $TMP_LOG
 # determine next version
 info "Bumping version ..."
 if [[ "" = "$NEXT_VERSION" ]]; then
-  FEAT=`git log ${RANGE} --oneline --pretty="%s" | grep -P '^feat' || echo ""`
+  FEAT=`git log $RANGE --oneline --pretty="%s" | grep -P '^feat' || echo ""`
   if [[ $MAJOR -eq 1 ]]; then
     V=""
     if [[ $VERSION == v* ]]; then
@@ -343,13 +343,13 @@ if [[ "" = "$NEXT_VERSION" ]]; then
     NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1)))`
   fi
 fi
-ok "  Done [${NEXT_VERSION}]"
+ok "  Done [$NEXT_VERSION]"
 
 if [[ $YES -eq 0 ]]; then
-  read -p "Are you sure to release [${NEXT_VERSION}]? [y/N] " -n 1 -r
+  read -p "Are you sure to release [$NEXT_VERSION]? [y/N] " -n 1 -r
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    error "Not releasing ${NEXT_VERSION}"
+    error "Not releasing $NEXT_VERSION"
     exit 1
   fi
 fi
@@ -360,7 +360,7 @@ if [ -f ./CHANGELOG.md ]; then
   OLD="\n$(cat ./CHANGELOG.md)"
   CHLOG=0
 
-  if [[ $OLD != *"[${NEXT_VERSION}]"* ]]; then
+  if [[ $OLD != *"[$NEXT_VERSION]"* ]]; then
     CHLOG=1
   fi
 fi
@@ -368,14 +368,14 @@ fi
 # changelog file
 if [[ $CHLOG -eq 1 ]]; then
   info "Updating changelog ..."
-  echo -e "## [${NEXT_VERSION}](https://github.com/$REPO/releases/tag/$NEXT_VERSION) ($(date -u '+%Y-%m-%d'))\n\n${COMMITS}${OLD}" > ./CHANGELOG.md
+  echo -e "## [$NEXT_VERSION](https://github.com/$REPO/releases/tag/$NEXT_VERSION) ($(date -u '+%Y-%m-%d'))\n\n$COMMITS$OLD" > ./CHANGELOG.md
   qgit add ./CHANGELOG.md && GPUSH=1
   ok
 fi
 
 # version file
 if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
-  echo "${NEXT_VERSION}" > ./VERSION
+  echo "$NEXT_VERSION" > ./VERSION
   qgit add ./VERSION && GPUSH=1
 fi
 
@@ -397,15 +397,15 @@ fi
 trigger before-vcs
 info "Releasing $NEXT_VERSION ..."
 COMMITS=`printf %s "$COMMITS"`
-LAST_RELEASE_ID=`curl --silent -H "Authorization: token ${GH_AUTH_TOKEN}" \
+LAST_RELEASE_ID=`curl --silent -H "Authorization: token $GH_AUTH_TOKEN" \
   -H 'Content-Type: application/json' \
-  -d "{\"tag_name\":\"${NEXT_VERSION}\",\"name\":\"Version ${NEXT_VERSION}\",\"body\":\"$COMMITS\"}" \
-  https://api.${GH_REPO}/releases \
+  -d "{\"tag_name\":\"$NEXT_VERSION\",\"name\":\"Version $NEXT_VERSION\",\"body\":\"$COMMITS\"}" \
+  https://api.$GH_REPO/releases \
     | jq -r '.id?'`
 
 if [ "null" == "${LAST_RELEASE_ID:-null}" ]; then
   error "Something went wrong"
-  info "Check ${TMP_LOG} for logs"
+  info "Check $TMP_LOG for logs"
   exit 1
 fi
 
@@ -419,4 +419,4 @@ if [ -f ./box.json ] && [ -f ./composer.json ]; then
 fi
 
 trigger after-all
-info "Check ${TMP_LOG} for logs"
+info "Check $TMP_LOG for logs"
