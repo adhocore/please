@@ -1,5 +1,10 @@
 # adhocore/please
 
+[![Latest Version](https://img.shields.io/github/release/adhocore/please.svg?style=flat-square)](https://github.com/adhocore/please/releases)
+[![Travis Build](https://img.shields.io/travis/com/adhocore/please/master.svg?style=flat-square)](https://travis-ci.com/adhocore/please?branch=master)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+
+
 `please` (aka **p**hp re**lease** or even n**p**m re**lease**) is very simple Github+NPM release for ~PHP and/or Nodejs projects~ anything.
 
 Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
