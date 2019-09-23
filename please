@@ -70,7 +70,7 @@ $(ok Events:)
   (See https://github.com/adhocore/please#events for more info)
 USAGE
 
-  if [ "$1" == "help" ]; then
+  if [ "$1" == "--help" ]; then
     cat << EXAMPLE
 $(ok Examples:)
   $PLIZ
