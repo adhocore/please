@@ -1,3 +1,12 @@
+## [0.9.5](https://github.com/adhocore/please/releases/tag/0.9.5) (2019-09-23)
+
+### Bug Fixes
+- --help shows examples too (Jitendra Adhikari) [_272c04b_](https://github.com/adhocore/please/commit/272c04b)
+
+### Miscellaneous
+- Remove -i suffix for sed (Jitendra Adhikari) [_128b303_](https://github.com/adhocore/please/commit/128b303)
+
+
 ## [0.9.4](https://github.com/adhocore/please/releases/tag/0.9.4) (2019-08-19)
 
 ### Bug Fixes
