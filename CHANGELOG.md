@@ -1,3 +1,59 @@
+## [0.10.0](https://github.com/adhocore/please/releases/tag/0.10.0) (2019-09-27)
+
+### Features
+- Read events from please.json (can still be overridden by params) (Jitendra Adhikari) [_cfecd24_](https://github.com/adhocore/please/commit/cfecd24)
+- Support registering events and trigger them during lifecycle (Jitendra Adhikari) [_455d5dc_](https://github.com/adhocore/please/commit/455d5dc)
+- Add version command, bump version on --update (Jitendra Adhikari) [_f0017e9_](https://github.com/adhocore/please/commit/f0017e9)
+- Support -o|--organize option to control changelog (Jitendra Adhikari) [_5ed9b2a_](https://github.com/adhocore/please/commit/5ed9b2a)
+- Organize commits by type (Jitendra Adhikari) [_9930cc9_](https://github.com/adhocore/please/commit/9930cc9)
+
+### Bug Fixes
+- Line exit, trigger, mktemp (Jitendra Adhikari) [_0bfea0b_](https://github.com/adhocore/please/commit/0bfea0b)
+- Help shows examples too (Jitendra Adhikari) [_4da8c99_](https://github.com/adhocore/please/commit/4da8c99)
+- Update version of please in the repo instead of running binary (Jitendra Adhikari) [_546ad3c_](https://github.com/adhocore/please/commit/546ad3c)
+- No need to bump version on update anymore (Jitendra Adhikari) [_61cefee_](https://github.com/adhocore/please/commit/61cefee)
+- Make sure ./please is staged before push (Jitendra Adhikari) [_648f1cc_](https://github.com/adhocore/please/commit/648f1cc)
+- Event trigger eval (Jitendra Adhikari) [_6af05ba_](https://github.com/adhocore/please/commit/6af05ba)
+- Version and before-push (Jitendra Adhikari) [_976f59b_](https://github.com/adhocore/please/commit/976f59b)
+- Trim leading -- from event name (Jitendra Adhikari) [_7febd62_](https://github.com/adhocore/please/commit/7febd62)
+- Info => echo (Jitendra Adhikari) [_f08d676_](https://github.com/adhocore/please/commit/f08d676)
+- Use RANGE instead of DIFF (Jitendra Adhikari) [_64cca54_](https://github.com/adhocore/please/commit/64cca54)
+- Push to deploy branch (Jitendra Adhikari) [_a736397_](https://github.com/adhocore/please/commit/a736397)
+- Support https origin url (Jitendra Adhikari) [_1ab96c9_](https://github.com/adhocore/please/commit/1ab96c9)
+- Change release header to [version] (date) (Jitendra Adhikari) [_eb317c3_](https://github.com/adhocore/please/commit/eb317c3)
+- Check git repo after parsing args (Jitendra Adhikari) [_1eea5a7_](https://github.com/adhocore/please/commit/1eea5a7)
+
+### Internal Refactors
+- Shorten and simplify sctipt (Jitendra Adhikari) [_bb5085a_](https://github.com/adhocore/please/commit/bb5085a)
+- Change release type to chore (Jitendra Adhikari) [_15fec74_](https://github.com/adhocore/please/commit/15fec74)
+- Update and reorder default types to organize (Jitendra Adhikari) [_cbe6103_](https://github.com/adhocore/please/commit/cbe6103)
+- Dont use curly brace when not needed (Jitendra Adhikari) [_c56530b_](https://github.com/adhocore/please/commit/c56530b)
+- Update usage info, rename --before-github to --before-vcs (Jitendra Adhikari) [_8c0646b_](https://github.com/adhocore/please/commit/8c0646b)
+- Remove UTC in changelog, use direct curl to release, relocate bump info (Jitendra Adhikari) [_329c50a_](https://github.com/adhocore/please/commit/329c50a)
+- Prepare travis support, skip update if current branch is deploy branch (Jitendra Adhikari) [_4f7e300_](https://github.com/adhocore/please/commit/4f7e300)
+- Place commit hash at last (Jitendra Adhikari) [_9ea2eb0_](https://github.com/adhocore/please/commit/9ea2eb0)
+
+### Miscellaneous
+- Create FUNDING.yml (Jitendra Adhikari) [_16f081e_](https://github.com/adhocore/please/commit/16f081e)
+- Remove -i suffix for sed (Jitendra Adhikari) [_14da289_](https://github.com/adhocore/please/commit/14da289)
+- Add/support before-phar event (Jitendra Adhikari) [_6cce738_](https://github.com/adhocore/please/commit/6cce738)
+- Cleanup and minify code (Jitendra Adhikari) [_ac3f091_](https://github.com/adhocore/please/commit/ac3f091)
+- Update release commit (Jitendra Adhikari) [_ca9275b_](https://github.com/adhocore/please/commit/ca9275b)
+- Add please.json (Jitendra Adhikari) [_3447186_](https://github.com/adhocore/please/commit/3447186)
+
+### Documentations
+- Add info about before-phar (Jitendra Adhikari) [_e5296a5_](https://github.com/adhocore/please/commit/e5296a5)
+- Update usage info, add events section (Jitendra Adhikari) [_4b630a4_](https://github.com/adhocore/please/commit/4b630a4)
+- Update --help output (Jitendra Adhikari) [_a20c4c3_](https://github.com/adhocore/please/commit/a20c4c3)
+- Include --organize option (Jitendra Adhikari) [_1b9a12a_](https://github.com/adhocore/please/commit/1b9a12a)
+- Update changelog sample (Jitendra Adhikari) [_e4b596d_](https://github.com/adhocore/please/commit/e4b596d)
+
+### 
+- **Travis**: Lint the commits (Jitendra Adhikari) [_0cd0076_](https://github.com/adhocore/please/commit/0cd0076)
+- **Travis**: Reorder script (Jitendra Adhikari) [_9e12950_](https://github.com/adhocore/please/commit/9e12950)
+- Add travis (Jitendra Adhikari) [_5de31da_](https://github.com/adhocore/please/commit/5de31da)
+
+
 ## [0.9.5](https://github.com/adhocore/please/releases/tag/0.9.5) (2019-09-23)
 
 ### Bug Fixes
