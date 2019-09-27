@@ -15,11 +15,11 @@ declare -A EVENTS
 FULL=`readlink -f $0` # fullpath
 PLIZ=`basename $0`    # name
 
-line() { echo -e "\e[${3:-0};$2m$1\e[0m"; }
-error() { line "$1" 31; if [[ ! ${2:-0} -eq 0 ]]; then exit $2; fi }
-ok() { line "${1:-  Done}" 32; }
-info() { line "$1" 33; }
-comment() { line "$1" 30 1; }
+line() { echo -e "\e[${3:-0};$2m$1\e[0m" && [[ "$4" != "" ]] && exit $4; }
+error() { line "$1" 31 0 ${2:-}; }
+ok() { line "${1:-  Done}" 32 0 ${2:-}; }
+info() { line "$1" 33 0 ${2:-}; }
+comment() { line "$1" 30 1 ${2:-}; }
 
 qgit() { git "$@" &>> $TMP_LOG; }
 
@@ -30,7 +30,7 @@ github()
   echo "$RESP" >> ${TMP_LOG}
 
   ERROR=`echo $RESP | jq -r '.message?'`
-  if [ "" != "$ERROR" ] && [ "null" != "$ERROR" ]; then error "Github: $ERROR" 1; fi
+  [[ $ERROR ]] && [[ "null" != "$ERROR" ]] && error "Github: $ERROR" 1
 
   echo "$RESP"
 }
@@ -111,7 +111,6 @@ organize-commits() # $1 = diff_range, $2 = commit_types_csv
       ORGANIZED="$ORGANIZED### ${LABELS[$TYPE]}\n${CHANGELOG[$TYPE]}\n"
     fi
   done
-
   echo $ORGANIZED
 }
 
@@ -119,15 +118,11 @@ organize-commits() # $1 = diff_range, $2 = commit_types_csv
 update()
 {
   NEWVER=`curl -sSL https://raw.githubusercontent.com/adhocore/please/master/VERSION`
-  if [ "v$NEWVER" == "$(version)" ]; then
-    ok "Already latest version"
-    exit 0
-  fi
+  [[ "v$NEWVER" == "$(version)" ]] && ok "Already latest version" 0
 
   info "Updating $PLIZ ..."
   curl -sSLo ${FULL} https://raw.githubusercontent.com/adhocore/please/master/please
-  ok "  Done [${NEWVER}]"
-  exit 0
+  ok "  Done [${NEWVER}]" 0
 }
 
 version() { echo v0.9.5; }
@@ -158,8 +153,7 @@ publish-phar()
 {
   PBIN=`cat composer.json | jq -r '.bin[0]?'`
   if [ "null" == "$PBIN" ]; then
-    info "Check ${TMP_LOG} for logs"
-    error "Check bin value in composer.json" 1
+    info "Check ${TMP_LOG} for logs" && error "Check bin value in composer.json" 1
   fi
 
   trigger before-phar
@@ -167,8 +161,7 @@ publish-phar()
   php `get-box` compile >> ${TMP_LOG}
   ok
 
-  PHAR_FILE=`realpath $PBIN.phar`
-  NAME=`basename $PHAR_FILE`
+  PHAR_FILE=`realpath $PBIN.phar`  NAME=`basename $PHAR_FILE`
   info "Publishing phar ..."
 
   SIZE=`github \
@@ -183,9 +176,7 @@ publish-phar()
 # publish npm
 publish-npm()
 {
-  PKG=`cat ./package.json`
-  PVT=`echo $PKG | jq -r '.private?'`
-
+  PKG=`cat ./package.json`  PVT=`echo $PKG | jq -r '.private?'`
   echo $PKG | jq ".version = \"$NEXT_VERSION\"" > ./package.json
   qgit add ./package.json && GPUSH=1
 
@@ -207,27 +198,20 @@ publish-npm()
 # trigger event
 trigger() # $1 = event
 {
-  local EVENT="$1"
-  local CMD="${EVENTS[$EVENT]}"
-
+  local EVENT="$1"  CMD="${EVENTS[$EVENT]}"
   if [[ "$CMD" != "" ]]; then
-    echo "$(info Running) $(ok "$EVENT")"
-    comment "> $CMD"
-    eval "CMD=\"${CMD//{/\${}\""
-    eval "$CMD"
+    echo -e "$(info Running) $(ok "$EVENT")\n$(comment "> $CMD")"
+    eval "CMD=\"${CMD//{/\${}\"" && eval "$CMD"
   fi
 }
 
 GCFMT="%s (%an)"    # git commit log format
 REPO=`git config --get remote.origin.url | sed -e 's/git@github.com://;s/https:\/\/github.com\///;s/.git//'`
 
-if [ -f ./please.json ]; then
-  eval $(cat ./please.json | jq -r 'to_entries|map("EVENTS[\(.key)]=\"\(.value)\"")|.[]')
-fi
+[[ -f ./please.json ]] && eval $(cat ./please.json | jq -r 'to_entries|map("EVENTS[\(.key)]=\"\(.value)\"")|.[]')
 
 # argv parsing
-while [[ $# -gt 0 ]]
-do
+while [[ $# -gt 0 ]]; do
   case "$1" in
     -h | --help | help) usage $1 ;;
     -u | --update) update ;;
@@ -242,13 +226,11 @@ do
     version) version; exit 0 ;;
     minor) MINOR=1; shift 1 ;;
     major) MAJOR=1; shift 1 ;;
-    *) error "Invalid arg $1. (Run $PLIZ --help)"; exit 1 ;;
+    *) error "Invalid arg $1. (Run $PLIZ --help)" 1 ;;
   esac
 done
 
-if [ "" == "$REPO" ]; then
-  error "$(pwd) is not git repo" 1
-fi
+[[ $REPO ]] || error "$(pwd) is not git repo" 1
 
 GPUSH=0             # git push pending
 MAJOR=${MAJOR:-0}   # bump major
@@ -257,16 +239,10 @@ VFILE=${VFILE:-0}   # create version file
 CHLOG=${CHLOG:-0}   # create changelog file
 YES=${YES:-0}       # assume yes
 
-# gh auth
-if [ -z "$GH_AUTH_TOKEN" ]; then
-  error "GH_AUTH_TOKEN missing" 1
-fi
+[[ -z "$GH_AUTH_TOKEN" ]] && error "GH_AUTH_TOKEN missing" 1
 
-GH_REPO="github.com/repos/$REPO"
-ok "Repository $REPO"
-
-TMP_LOG=`tempfile -p PLZ`
-info "Log file $TMP_LOG"
+GH_REPO="github.com/repos/$REPO" TMP_LOG=`mktemp -p PLZ.XXXXXXXXXX`
+ok "Repository $REPO" && info "Log file $TMP_LOG"
 
 DEPLOY_BRANCH="${DEPLOY_BRANCH:-master}"
 
@@ -284,20 +260,14 @@ info "Getting latest releases ..."
 VERSION=`github "https://api.$GH_REPO/releases?per_page=1" | jq -r '.[0]?.tag_name?'`
 RANGE="$VERSION..HEAD"
 
-if [ "null" == "$VERSION" ]; then
-  VERSION="0.0.0"
-  RANGE=""
-fi
+[[ "null" == "$VERSION" ]] && { VERSION="0.0.0"  RANGE=""; }
 ok "  Done [$VERSION]"
 
 info "Collecting commits ..."
 COMMITS=`organize-commits "$RANGE" "$TYPES"`
 ok
 
-if [ "" == "$COMMITS" ]; then
-  error "Nothing to release"
-  exit 0
-fi
+[[ $COMMITS ]] || error "Nothing to release" 0
 
 echo $COMMITS >> $TMP_LOG
 
@@ -308,8 +278,7 @@ if [[ "" = "$NEXT_VERSION" ]]; then
   if [[ $MAJOR -eq 1 ]]; then
     V=""
     if [[ $VERSION == v* ]]; then
-      V="v"
-      VERSION="${VERSION//v/}"
+      V="v"  VERSION="${VERSION//v/}"
     fi
     NEXT_VERSION=`echo $VERSION | (IFS=".$IFS"; read a b c && echo $V$((a + 1)).0.0)`
   elif [[ $MINOR -eq 1 ]]; then
@@ -325,20 +294,13 @@ ok "  Done [$NEXT_VERSION]"
 if [[ $YES -eq 0 ]]; then
   read -p "Are you sure to release [$NEXT_VERSION]? [y/N] " -n 1 -r
   echo
-  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    error "Not releasing $NEXT_VERSION" 1
-  fi
+  [[ $REPLY =~ ^[Yy]$ ]] || error "Not releasing $NEXT_VERSION" 1
 fi
 
 # changelog backup
-OLD=""
 if [ -f ./CHANGELOG.md ]; then
-  OLD="\n$(cat ./CHANGELOG.md)"
-  CHLOG=0
-
-  if [[ $OLD != *"[$NEXT_VERSION]"* ]]; then
-    CHLOG=1
-  fi
+  OLD="\n$(cat ./CHANGELOG.md)"  CHLOG=0
+  [[ $OLD != *"[$NEXT_VERSION]"* ]] && CHLOG=1
 fi
 
 # changelog file
@@ -356,9 +318,7 @@ if [ -f ./VERSION ] || [[ $VFILE -eq 1 ]]; then
 fi
 
 # do we need to publish npm?
-if [ -f ./package.json ]; then
-  publish-npm
-fi
+[[ -f ./package.json ]] && publish-npm
 
 # push changes
 if [[ $GPUSH -eq 1 ]]; then
@@ -380,9 +340,7 @@ LAST_RELEASE_ID=`curl --silent -H "Authorization: token $GH_AUTH_TOKEN" \
     | jq -r '.id?'`
 
 if [ "null" == "${LAST_RELEASE_ID:-null}" ]; then
-  error "Something went wrong"
-  info "Check $TMP_LOG for logs"
-  exit 1
+  error "Something went wrong" && info "Check $TMP_LOG for logs" 1
 fi
 
 RELEASE_URL="https://github.com/$REPO/releases/tag/$NEXT_VERSION"
@@ -390,9 +348,7 @@ ok "  Done ($RELEASE_URL)"
 trigger after-release
 
 # do we need to publish phar?
-if [ -f ./box.json ] && [ -f ./composer.json ]; then
-  publish-phar
-fi
+[[ -f ./box.json ]] && [[ -f ./composer.json ]] && publish-phar
 
 trigger after-all
 info "Check $TMP_LOG for logs"
