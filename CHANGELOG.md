@@ -1,3 +1,9 @@
+## [0.10.1](https://github.com/adhocore/please/releases/tag/0.10.1) (2019-09-28)
+
+### Bug Fixes
+- Add labels for missing commit types (Jitendra Adhikari) [_6d35354_](https://github.com/adhocore/please/commit/6d35354)
+
+
 ## [0.10.0](https://github.com/adhocore/please/releases/tag/0.10.0) (2019-09-27)
 
 ### Features
