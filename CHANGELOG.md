@@ -1,3 +1,12 @@
+## [0.10.2](https://github.com/adhocore/please/releases/tag/0.10.2) (2019-10-23)
+
+### Miscellaneous
+- Minor cleanup, organize (Jitendra Adhikari) [_7934eab_](https://github.com/adhocore/please/commit/7934eab)
+
+### Documentations
+- Add missing events (Jitendra Adhikari) [_3ab3ac9_](https://github.com/adhocore/please/commit/3ab3ac9)
+
+
 ## [0.10.1](https://github.com/adhocore/please/releases/tag/0.10.1) (2019-09-28)
 
 ### Bug Fixes
