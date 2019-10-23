@@ -125,12 +125,14 @@ Examples:
 You can take control of the work flow or execute more tasks by using the event callbacks.
 When the event commands are triggerred they receive all the variables defined in the then moment.
 
-Currently `please` supports five events which are executed in following order:
+Currently `please` supports these events which are executed in following order:
 
 -  before-all
 -  before-npm
 -  before-push
 -  before-vcs
+-  after-release
+-  before-phar
 -  after-all
 
 You can either set events as a json file in [./please.json](./please.json) or pass them in as option to `please` like so:
