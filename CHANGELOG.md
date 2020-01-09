@@ -1,3 +1,9 @@
+## [0.10.4](https://github.com/adhocore/please/releases/tag/0.10.4) (2020-01-09)
+
+### Internal Refactors
+- Use $(fn) instead of backtick calls (Jitendra Adhikari) [_479a298_](https://github.com/adhocore/please/commit/479a298)
+
+
 ## [0.10.2](https://github.com/adhocore/please/releases/tag/0.10.2) (2019-10-23)
 
 ### Miscellaneous
