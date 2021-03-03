@@ -72,7 +72,7 @@ please [Scope|Command] [Options]
 ```
 
 ```
-please v0.9.0 | (c) Jitendra Adhikari | please is semver release made easy.
+please v0.11.0 | (c) Jitendra Adhikari | please is semver release made easy.
 
 Usage: please [command|scope] [--options]
 
@@ -88,8 +88,11 @@ Options:
   -H --chash     Prepends commit hash into log.
   -o --organize  Commit types as CSV for changelog or release notes.
                  (Default: feat,fix,refactor,perf,docs,infra,chore)
+  -L | --label   Set custom release label.
+  -N | --no-sync Do not sync the DEPLOY_BRANCH with remote (faster but unsafe).
   -p --public    Set scoped npm package for public access.
-  -u --update    Update _please to latest version.
+  --prev-version Fix the previous version (skips API call).
+  -u --update    Update please to latest version.
   -v --vfile     Forces creation of VERSION file.
   -V --version   Forces the exact version to be released.
   -y --yes       Assume yes for any confirmation.
