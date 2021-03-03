@@ -38,7 +38,7 @@ github()
 # show usage
 usage()
 {
-  cat << USAGE
+  cat <<- USAGE
 $PLIZ $(info $(version)) | $(ok "(c) Jitendra Adhikari") | $PLIZ is semver release made easy.
 
 $(ok Usage:) $PLIZ [command|scope] [--options]
@@ -71,7 +71,7 @@ $(ok Events:)
 USAGE
 
   if [ "$1" == "--help" ]; then
-    cat << EXAMPLE
+    cat <<- EXAMPLE
 $(ok Examples:)
   $PLIZ
   $PLIZ version                          $(comment "# prints current version of itself")
