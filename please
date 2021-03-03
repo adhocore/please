@@ -222,10 +222,13 @@ while [[ $# -gt 0 ]]; do
     -v | --vfile) VFILE=1; shift 1 ;;
     -p | --public) PUBLIC="--access=public"; shift 1 ;;
     -c | --chlog) CHLOG=1; shift 1 ;;
-    -H | --chash) GCFMT="$GCFMT [_%h_](https://github.com/$REPO/commit/%h)"; shift 1 ;;
+    -H | --chash) GCFMT="$GCFMT [_%h_](https://$VCS/$REPO/$CMT/%h)"; shift 1 ;;
     -y | --yes) YES=1; shift 1 ;;
     -V | --version) NEXT_VERSION=$2; shift 2 ;;
+    -L | --label) LABEL=$2; shift 2 ;;
+    -P | --prev-version) PREV_VERSION=$2; shift 2 ;;
     -o | --organize) TYPES=$2; shift 2 ;;
+    -N | --no-sync) NOSYNC=1; shift 1 ;;
     --before-* | --after-*) EVENTS[${1/--}]="$2"; shift 2 ;;
     version) version; exit 0 ;;
     minor) MINOR=1; shift 1 ;;
@@ -252,7 +255,7 @@ DEPLOY_BRANCH="${DEPLOY_BRANCH:-master}"
 trigger before-all
 if [ -z "$TRAVIS" ] || [ "$DEPLOY_BRANCH" == "$TRAVIS_BRANCH" ]; then
   info "Updating $DEPLOY_BRANCH ..."
-  qgit stash && qgit checkout $DEPLOY_BRANCH && qgit fetch --tags && qgit pull origin $DEPLOY_BRANCH --rebase
+  [[ $NOSYNC -eq 0 ]] && qgit stash && qgit checkout $DEPLOY_BRANCH && qgit fetch --tags && qgit pull origin $DEPLOY_BRANCH --rebase
   ok
 else
   info "Skip release"
@@ -260,7 +263,8 @@ else
 fi
 
 info "Getting latest releases ..."
-VERSION=$(github "https://api.$GH_REPO/releases?per_page=1" | jq -r '.[0]?.tag_name?')
+[[ $PREV_VERSION ]] || PREV_VERSION=$(github "https://api.$GH_REPO/releases?per_page=1" | jq -r '.[0]?.tag_name?')
+VERSION="$PREV_VERSION"
 RANGE="$VERSION..HEAD"
 
 [[ "null" == "$VERSION" ]] && { VERSION="0.0.0"  RANGE=""; }
@@ -326,11 +330,13 @@ fi
 # push changes
 if [[ $GPUSH -eq 1 ]]; then
   trigger before-push
-  qgit commit -m "chore: new version $NEXT_VERSION [skip ci] [ci skip]"
+  qgit commit --allow-empty -m "chore: new version $NEXT_VERSION [skip ci] [ci skip]"
   info "Pushing pending commits ..."
   qgit push origin $DEPLOY_BRANCH
   ok
 fi
+
+[[ "$VCS" == *"bitbucket"* ]] && trigger after-all && exit 0
 
 # github release
 trigger before-vcs
@@ -338,7 +344,7 @@ info "Releasing $NEXT_VERSION ..."
 COMMITS=$(printf %s "$COMMITS")
 LAST_RELEASE_ID=$(curl --silent -H "Authorization: token $GH_AUTH_TOKEN" \
   -H 'Content-Type: application/json' \
-  -d "{\"tag_name\":\"$NEXT_VERSION\",\"name\":\"Version $NEXT_VERSION\",\"body\":\"$COMMITS\"}" \
+  -d "{\"tag_name\":\"$NEXT_VERSION\",\"name\":\"${LABEL:-Version} $NEXT_VERSION\",\"body\":\"$COMMITS\",\"target_commitish\":\"$DEPLOY_BRANCH\"}" \
   https://api.$GH_REPO/releases \
     | jq -r '.id?')
 
