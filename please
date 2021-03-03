@@ -206,8 +206,10 @@ trigger() # $1 = event
   fi
 }
 
+VCS=${VCS:-github.com}
 GCFMT="%s (%an)"    # git commit log format
-REPO=$(git config --get remote.origin.url | sed -e 's/git@github.com://;s/https:\/\/github.com\///;s/.git//')
+REPO=$(git config --get remote.origin.url | sed -e "s/git@$VCS://;s/https:\/\/$VCS\///;s/\.git//")
+[[ "$VCS" == *"bitbucket"* ]] && CMT=commits || CMT=commit
 
 # load events
 [[ -f ./please.json ]] && eval $(cat ./please.json | jq -r 'to_entries|map("EVENTS[\(.key)]=\"\(.value)\"")|.[]')
