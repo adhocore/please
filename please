@@ -238,7 +238,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ $REPO ]] || error "$(pwd) is not git repo" 1
-[[ -z "$GH_AUTH_TOKEN" ]] && error "GH_AUTH_TOKEN missing" 1
+[[ "$VCS" == *"github"* ]] && [[ -z "$GH_AUTH_TOKEN" ]] && error "GH_AUTH_TOKEN missing" 1
 
 GPUSH=0             # git push pending
 MAJOR=${MAJOR:-0}   # bump major
@@ -246,6 +246,7 @@ MINOR=${MINOR:-0}   # bump minor
 VFILE=${VFILE:-0}   # create version file
 CHLOG=${CHLOG:-0}   # create changelog file
 YES=${YES:-0}       # assume yes
+NOSYNC=${NOSYNC:-0} # do no sync deploy branch (faster for retry)
 
 GH_REPO="github.com/repos/$REPO"  TMP_LOG=$(mktemp -t PLZ.XXXXXXXXXX)
 ok "Repository $REPO" && info "Log file $TMP_LOG"
