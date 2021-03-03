@@ -1,3 +1,22 @@
+## [v0.11.0](https://github.com/adhocore/please/releases/tag/v0.11.0) (2021-03-03)
+
+### Features
+- Support release label, using prev version, no sync mode, fix empty commit error (Jitendra Adhikari) [_488bfc9_](https://github.com/adhocore/please/commit/488bfc9)
+
+### Bug Fixes
+- Declare EVENTS array, script fullpath, log to TMP_LOG without await (Jitendra Adhikari) [_d1a8663_](https://github.com/adhocore/please/commit/d1a8663)
+- Validate GH_AUTH_TOKEN for github only, init NOSYNC mode (Jitendra Adhikari) [_d303ae8_](https://github.com/adhocore/please/commit/d303ae8)
+
+### Internal Refactors
+- Init support for bitbucket (Jitendra Adhikari) [_536aa0f_](https://github.com/adhocore/please/commit/536aa0f)
+
+### Miscellaneous
+- Update heredoc start (Jitendra Adhikari) [_b453437_](https://github.com/adhocore/please/commit/b453437)
+
+### Documentations
+- Add new options in usage and readme (Jitendra Adhikari) [_46d6a95_](https://github.com/adhocore/please/commit/46d6a95)
+
+
 ## [0.10.4](https://github.com/adhocore/please/releases/tag/0.10.4) (2020-01-09)
 
 ### Internal Refactors
