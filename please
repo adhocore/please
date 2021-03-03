@@ -10,10 +10,10 @@
 
 set -e
 
-declare -A EVENTS
+[[ "$(uname)" == "Darwin" ]] && declare -a EVENTS || declare -A EVENTS
 
-FULL=$(readlink -f $0) # fullpath
-PLIZ=$(basename $0)    # name
+FULL=$(readlink -n $0 || echo $0)  # fullpath
+PLIZ=$(basename $0)                # name
 
 line() { echo -e "\e[${3:-0};$2m$1\e[0m"; if [[ "$4" != "" ]]; then exit $4; fi }
 error() { line "$1" 31 0 $2; }
@@ -21,7 +21,7 @@ ok() { line "${1:-  Done}" 32 0 $2; }
 info() { line "$1" 33 0 $2; }
 comment() { line "$1" 30 1 $2; }
 
-qgit() { git "$@" &>> $TMP_LOG; }
+qgit() { git "$@" >> $TMP_LOG; }
 
 # github api
 github()
@@ -192,7 +192,7 @@ publish-npm()
   fi
 
   trigger before-npm
-  npm publish $PUBLIC &>> $TMP_LOG
+  npm publish $PUBLIC >> $TMP_LOG
   ok
 }
 
