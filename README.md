@@ -39,7 +39,7 @@ Actually you can release any thing not just PHP/Nodejs. Please itself is [releas
 # jq
 sudo apt install jq -y
 
-curl -sSLo ~/please https://raw.githubusercontent.com/adhocore/please/master/please
+curl -sSLo ~/please https://raw.githubusercontent.com/adhocore/please/main/please
 chmod +x ~/please && sudo ln -s ~/please /usr/local/bin/please
 ```
 
