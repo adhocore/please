@@ -1,3 +1,12 @@
+## [v0.11.1](https://github.com/adhocore/please/releases/tag/v0.11.1) (2021-04-17)
+
+### Bug Fixes
+- Use main branch, current version output (Jitendra Adhikari) [_a56ec29_](https://github.com/adhocore/please/commit/a56ec29)
+
+### Documentations
+- Use main branch (Jitendra Adhikari) [_c05e968_](https://github.com/adhocore/please/commit/c05e968)
+
+
 ## [v0.11.0](https://github.com/adhocore/please/releases/tag/v0.11.0) (2021-03-03)
 
 ### Features
