@@ -129,7 +129,7 @@ update()
   ok "  Done [${NEWVER}]" 0
 }
 
-version() { echo v0.11.0; }
+version() { echo v0.11.1; }
 
 # get box.phar path
 get-box()
