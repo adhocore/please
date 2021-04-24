@@ -3,6 +3,8 @@
 [![Latest Version](https://img.shields.io/github/release/adhocore/please.svg?style=flat-square)](https://github.com/adhocore/please/releases)
 [![Travis Build](https://img.shields.io/travis/com/adhocore/please/master.svg?style=flat-square)](https://travis-ci.com/adhocore/please?branch=master)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://www.paypal.me/ji10/50usd)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=This+console+tool+makes+Semver+release+and+changelog+super+easy&url=https://github.com/adhocore/please&hashtags=console,releaser,semver,changelog,gitrelease)
 
 
 `please` (aka **p**hp re**lease** or even n**p**m re**lease**) is very simple Github+NPM release for ~PHP and/or Nodejs projects~ anything.
