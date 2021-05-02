@@ -116,6 +116,9 @@ Examples:
   please --vfile --chlog --version 1.5.0  # releases version 1.5.0 with VERSION and CHANGELOG files
   please --before-all 'echo {REPO}'       # before release, runs 'echo {REPO}' with REPO interpolated
 ```
+> To use custom branch from which you want to create release tag, use `DEPLOY_BRANCH` env var.
+ 
+> Eg: `DEPLOY_BRANCH=main please -v -c` 
 
 #### Note
 
