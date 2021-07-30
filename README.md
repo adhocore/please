@@ -3,13 +3,16 @@
 [![Latest Version](https://img.shields.io/github/release/adhocore/please.svg?style=flat-square)](https://github.com/adhocore/please/releases)
 [![Travis Build](https://img.shields.io/travis/com/adhocore/please/master.svg?style=flat-square)](https://travis-ci.com/adhocore/please?branch=master)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://www.paypal.me/ji10/50usd)
+[![Donate 15](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square&label=donate+15)](https://www.paypal.me/ji10/15usd)
+[![Donate 25](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square&label=donate+25)](https://www.paypal.me/ji10/25usd)
+[![Donate 50](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square&label=donate+50)](https://www.paypal.me/ji10/50usd)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=This+console+tool+makes+Semver+release+and+changelog+super+easy&url=https://github.com/adhocore/please&hashtags=console,releaser,semver,changelog,gitrelease)
 
 
 `please` (aka **p**hp re**lease** or even n**p**m re**lease**) is very simple Github+NPM release for ~PHP and/or Nodejs projects~ anything.
 
-Assumes you like semantic versioning of the format `<major>.<minor>.<patch>`!
+Assumes you like semantic versioning of the format `<major>.<minor>.<patch>` and you have the commits are following [angular format](https://gist.github.com/brianclements/841ea7bffdb01346392c)!
+More on this format [here](https://nitayneeman.com/posts/understanding-semantic-commit-messages-using-git-and-angular/).
 
 Actually you can release any thing not just PHP/Nodejs. Please itself is [released](https://github.com/adhocore/please/releases) by please.
 
