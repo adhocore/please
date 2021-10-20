@@ -260,6 +260,7 @@ trigger before-all
 if [ -z "$TRAVIS" ] || [ "$DEPLOY_BRANCH" == "$TRAVIS_BRANCH" ]; then
   info "Updating $DEPLOY_BRANCH ..."
   [[ $NOSYNC -eq 0 ]] && qgit stash && qgit checkout $DEPLOY_BRANCH && qgit fetch --tags && qgit pull origin $DEPLOY_BRANCH --rebase
+  qgit checkout $DEPLOY_BRANCH # for NOSYNC=1
   ok
 else
   info "Skip release"
