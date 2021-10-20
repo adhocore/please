@@ -102,12 +102,13 @@ Options:
   -V --version   Forces the exact version to be released.
   -y --yes       Assume yes for any confirmation.
 Events:
-  --before-all   Run the command before anything (very start).
-  --before-npm   Run the command before releasing to npm.
-  --before-push  Run the command before pushing code to remote.
-  --before-vcs   Run the command before releasing to VCS.
-  --before-phar  Run the command before uploading phar binary.
-  --after-all    Run the command after everything finishes.
+  --before-all     Run the command before anything (very start).
+  --after-version  Run the command after determining next version.
+  --before-npm     Run the command before releasing to npm.
+  --before-push    Run the command before pushing code to remote.
+  --before-vcs     Run the command before releasing to VCS.
+  --before-phar    Run the command before uploading phar binary.
+  --after-all      Run the command after everything finishes.
 Examples:
   please
   please version                          # prints current version of itself
@@ -139,6 +140,7 @@ When the event commands are triggerred they receive all the variables defined in
 Currently `please` supports these events which are executed in following order:
 
 -  before-all
+-  after-version
 -  before-npm
 -  before-push
 -  before-vcs
