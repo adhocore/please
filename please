@@ -129,7 +129,7 @@ update()
   ok "  Done [${NEWVER}]" 0
 }
 
-version() { echo vv0.12.0; }
+version() { echo v0.12.0; }
 
 # get box.phar path
 get-box()
@@ -299,6 +299,7 @@ if [[ "" = "$NEXT_VERSION" ]]; then
   else
     NEXT_VERSION=$(echo $VERSION | (IFS=".$IFS"; read a b c && echo $a.$b.$((c + 1))))
   fi
+  trigger after-version
 fi
 ok "  Done [$NEXT_VERSION]"
 
