@@ -1,3 +1,16 @@
+## [v0.12.0](https://github.com/adhocore/please/releases/tag/v0.12.0) (2021-10-20)
+
+### Features
+- Create released tag locally as well (Jitendra Adhikari) [_4e37156_](https://github.com/adhocore/please/commit/4e37156)
+
+### Miscellaneous
+- Annotate exit points (Jitendra Adhikari) [_469f814_](https://github.com/adhocore/please/commit/469f814)
+- Bump ver (Jitendra Adhikari) [_2c90a1b_](https://github.com/adhocore/please/commit/2c90a1b)
+
+### Documentations
+- Custom release branch (Jitendra Adhikari) [_43974b5_](https://github.com/adhocore/please/commit/43974b5)
+
+
 ## [v0.11.1](https://github.com/adhocore/please/releases/tag/v0.11.1) (2021-04-17)
 
 ### Bug Fixes
