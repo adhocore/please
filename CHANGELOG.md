@@ -1,3 +1,18 @@
+## [v0.12.1](https://github.com/adhocore/please/releases/tag/v0.12.1) (2021-10-20)
+
+### Bug Fixes
+- Still need to checkout branch even if NOSYNC=1 (Jitendra Adhikari) [_2eec21a_](https://github.com/adhocore/please/commit/2eec21a)
+
+### Internal Refactors
+- Fix the current version, support after-version trigger (Jitendra Adhikari) [_5b32580_](https://github.com/adhocore/please/commit/5b32580)
+
+### Miscellaneous
+- Label triggers, add after-version (Jitendra Adhikari) [_d536234_](https://github.com/adhocore/please/commit/d536234)
+
+### Documentations
+- Add after-version trigger (Jitendra Adhikari) [_1394541_](https://github.com/adhocore/please/commit/1394541)
+
+
 ## [v0.12.0](https://github.com/adhocore/please/releases/tag/v0.12.0) (2021-10-20)
 
 ### Features
