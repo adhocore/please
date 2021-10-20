@@ -344,20 +344,25 @@ fi
 
 # github release
 trigger before-vcs
+
 info "Releasing $NEXT_VERSION ..."
 COMMITS=$(printf %s "$COMMITS")
+
+[[ $LABEL ]] && LABEL=" ($LABEL)"
+VERSION_INFO="Version $NEXT_VERSION${LABEL}"
+
 LAST_RELEASE_ID=$(curl --silent -H "Authorization: token $GH_AUTH_TOKEN" \
   -H 'Content-Type: application/json' \
-  -d "{\"tag_name\":\"$NEXT_VERSION\",\"name\":\"${LABEL:-Version} $NEXT_VERSION\",\"body\":\"$COMMITS\",\"target_commitish\":\"$DEPLOY_BRANCH\"}" \
+  -d "{\"tag_name\":\"$NEXT_VERSION\",\"name\":\"$VERSION_INFO\",\"body\":\"$COMMITS\",\"target_commitish\":\"$DEPLOY_BRANCH\"}" \
   https://api.$GH_REPO/releases \
     | jq -r '.id?')
 
 if [ "null" == "${LAST_RELEASE_ID:-null}" ]; then
-  error "Something went wrong" && info "Check $TMP_LOG for logs" 1
+  error "Something went wrong" && info "Check $TMP_LOG for logs" 1 # exit
 fi
 
-RELEASE_URL="https://github.com/$REPO/releases/tag/$NEXT_VERSION"
-ok "  Done ($RELEASE_URL)"
+ok "  Done (https://github.com/$REPO/releases/tag/$NEXT_VERSION)"
+git tag -a "$NEXT_VERSION" HEAD -m "$VERSION_INFO" && echo "Created tag $NEXT_VERSION"; || true
 trigger after-release
 
 # do we need to publish phar?
