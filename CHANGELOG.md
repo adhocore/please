@@ -1,3 +1,9 @@
+## [v0.12.3](https://github.com/adhocore/please/releases/tag/v0.12.3) (2021-10-20)
+
+### Miscellaneous
+- Use qgit instead (Jitendra Adhikari) [_e690d3b_](https://github.com/adhocore/please/commit/e690d3b)
+
+
 ## [v0.12.2](https://github.com/adhocore/please/releases/tag/v0.12.2) (2021-10-20)
 
 ### Bug Fixes
