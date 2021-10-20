@@ -3,7 +3,7 @@
   "after-version": "echo [trigger after-version] {NEXT_VERSION}",
   "before-npm": "echo [trigger before-npm]; node --version; npm --version",
   "before-push": "echo [trigger before-push]; sed -i 's/echo v.*;/echo {NEXT_VERSION};/' ./please; git add ./please",
-  "before-vcs": "echo [trigger before-vcs]; VCS https://github.com/{REPO}",
+  "before-vcs": "echo [trigger before-vcs] VCS https://github.com/{REPO}",
   "before-phar": "echo [trigger before-phar] Phar binary: {PBIN}",
   "after-all": "echo [trigger after-all]; ./please version"
 }
