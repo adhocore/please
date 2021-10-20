@@ -240,8 +240,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ $REPO ]] || error "$(pwd) is not git repo" 1
-[[ "$VCS" == *"github"* ]] && [[ -z "$GH_AUTH_TOKEN" ]] && error "GH_AUTH_TOKEN missing" 1
+[[ $REPO ]] || error "$(pwd) is not git repo" 1 # exit
+[[ "$VCS" == *"github"* ]] && [[ -z "$GH_AUTH_TOKEN" ]] && error "GH_AUTH_TOKEN missing" 1 # exit
 
 GPUSH=0             # git push pending
 MAJOR=${MAJOR:-0}   # bump major
@@ -278,7 +278,7 @@ info "Collecting commits ..."
 COMMITS=$(organize-commits "$RANGE" "$TYPES")
 ok
 
-[[ $COMMITS ]] || error "Nothing to release" 0
+[[ $COMMITS ]] || error "Nothing to release" 0 # exit
 
 echo $COMMITS >> $TMP_LOG
 
@@ -305,7 +305,7 @@ ok "  Done [$NEXT_VERSION]"
 if [[ $YES -eq 0 ]]; then
   read -p "Are you sure to release [$NEXT_VERSION]? [y/N] " -n 1 -r
   echo
-  [[ $REPLY =~ ^[Yy]$ ]] || error "Not releasing $NEXT_VERSION" 1
+  [[ $REPLY =~ ^[Yy]$ ]] || error "Skipping release for $NEXT_VERSION" 1 # exit
 fi
 
 # changelog backup
