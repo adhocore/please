@@ -1,3 +1,9 @@
+## [v0.12.2](https://github.com/adhocore/please/releases/tag/v0.12.2) (2021-10-20)
+
+### Bug Fixes
+- Junk semicolon (Jitendra Adhikari) [_247c08e_](https://github.com/adhocore/please/commit/247c08e)
+
+
 ## [v0.12.1](https://github.com/adhocore/please/releases/tag/v0.12.1) (2021-10-20)
 
 ### Bug Fixes
