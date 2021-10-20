@@ -364,7 +364,7 @@ if [ "null" == "${LAST_RELEASE_ID:-null}" ]; then
 fi
 
 ok "  Done (https://github.com/$REPO/releases/tag/$NEXT_VERSION)"
-git tag -a "$NEXT_VERSION" HEAD -m "$VERSION_INFO" && echo "Created tag $NEXT_VERSION" || true
+qgit tag -a "$NEXT_VERSION" HEAD -m "$VERSION_INFO" && echo "Created tag $NEXT_VERSION" || true
 trigger after-release
 
 # do we need to publish phar?
